@@ -1,5 +1,4 @@
 import styles from '../../styles/components/Navbar.module.css'
-import React from 'react';
 import Link from 'next/link'
 
 const BGMCard = () => {

@@ -1,5 +1,8 @@
 import '../styles/globals.css'
 import Head from 'next/head'
+import axios from 'axios'
+
+axios.defaults.baseURL = "http://localhost:3001"
 
 function MyApp({ Component, pageProps }) {
   const RenderHead = () => {

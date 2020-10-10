@@ -16,3 +16,10 @@ a {
   box-sizing: border-box;
 }
 
+.pageContainer {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+

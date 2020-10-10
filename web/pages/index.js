@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className={styles.container}>
+      <div className={styles.pageContainer}>
         <div className={styles.header}>
           <div className={styles.title}>
             BBCDS Corona Analytics
