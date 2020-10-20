@@ -1,13 +1,23 @@
 import styles from '../../styles/pages/Analytics.module.css'
 import Navbar from '../../components/Navbar/Navbar'
 import Button from '@material-ui/core/Button';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios'
 
 export default function Analytics() {
 
   const testQueryServer = () => {
-    axios.get(`/test/`)
+    const testData = {
+      "country": "China",
+      "age": "36",
+      "gender": "male"
+    }
+
+    axios.get(`/analytics/search/`, {
+      params: {
+        data: testData,
+      }
+    })
       .then(({ data }) => {
         console.log("Successfully talked to the server!: ", data)
       }).catch((error) => {
