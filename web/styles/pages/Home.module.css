@@ -29,3 +29,32 @@
   justify-content: center;
   align-items: center;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+.analytics {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1424px;
+  margin: 0 auto;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.charts {
+  display: flex;
+  justify-content: center;
+}
+

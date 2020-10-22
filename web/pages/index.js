@@ -8,6 +8,9 @@ import Paper from "@material-ui/core/Paper";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
+import DataTable from '../components/Analytics/DataTable';
+import LocationsChart from '../components/Analytics/LocationsChart';
+import { CircularProgress } from '@material-ui/core'
 
 const countries = [
   "Afghanistan",
@@ -49,23 +52,27 @@ const countries = [
   "USA",
   "Vietnam",
 ];
-const age = ["18", "23", "24"];
 const sex = ["male", "female", "Other"];
 
 export default function Home() {
-  const [data, setData] = React.useState(null);
-  const [value, setValue] = React.useState({
+  const [data, setData] = useState(null);
+  const [value, setValue] = useState({
     country: countries[0],
-    age: age[0],
+    age: 0,
     gender: sex[0],
   });
-  const [inputValue, setInputValue] = React.useState({
+  const [inputValue, setInputValue] = useState({
     country: "",
     age: "",
     gender: "",
   });
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = () => {
+    setLoading(true)
+    if (data) {
+      setData(null)
+    }
     axios
       .get(`/analytics/search/`, {
         params: {
@@ -73,12 +80,14 @@ export default function Home() {
         },
       })
       .then(({ data }) => {
-        console.log("Successfully talked to the server!: ", data.filteredData);
         setData(data.filteredData);
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   };
 
   const handleValueChange = (key, v) => {
@@ -110,7 +119,7 @@ export default function Home() {
               spacing={5}
             >
               {/* Country Autocompete */}
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Autocomplete
                   value={value.country}
                   onChange={(event, newValue) => {
@@ -130,28 +139,12 @@ export default function Home() {
               </Grid>
 
               {/* Age selection */}
-              <Grid item xs={4}>
-                <Autocomplete
-                  value={value.age}
-                  onChange={(event, newValue) => {
-                    handleValueChange("age", newValue);
-                  }}
-                  // inputValue={inputValue.age}
-                  // onInputChange={(event, newInputValue) => {
-                  //   handleInputChange("age", newInputValue);
-                  // }}
-                  // id="controllable-states-demo"
-                  options={age}
-                  // style={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Age" variant="outlined" />
-                  )}
-                  blurOnSelect
-                />
+              <Grid item xs={2}>
+                <TextField onChange={e => handleValueChange("age", e.target.value)} label="Age" variant="outlined" />
               </Grid>
 
               {/* Gender autocomplete */}
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Autocomplete
                   value={value.gender}
                   onChange={(event, newValue) => {
@@ -182,6 +175,23 @@ export default function Home() {
               </Grid>
             </Grid>
           </Container>
+
+          {loading &&
+            <div className={styles.loading}>
+              <CircularProgress style={{ color: 'black' }} size={16} />
+            </div>
+          }
+
+          {data &&
+            <div className={styles.analytics}>
+              <div className={styles.table}>
+                <DataTable data={data} key={data} />
+              </div>
+              <div className={styles.charts}>
+                <LocationsChart data={data} />
+              </div>
+            </div>
+          }
         </div>
       </div>
     </>
