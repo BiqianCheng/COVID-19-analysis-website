@@ -65,9 +65,9 @@ export default function Analytics() {
 
   const testQueryServer = () => {
     const testInputs = {
-      // "country": "China",
-      "age": "53",
-      "gender": "male"
+      "country": "UK",
+      // "age": "53",
+      // "gender": "male"
     }
     setLoading(true)
     axios.get(`/analytics/search/`, {

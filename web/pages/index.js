@@ -7,20 +7,92 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
+import { Button } from "@material-ui/core";
 
-const countries = ["The United States", "Brazil", "India", "Russia", "China"];
-const age = ["18","23","24"];
-const sex = ["Male", "Female", "Other"];
+const countries = [
+  "Afghanistan",
+  "Algeria",
+  "Australia",
+  "Austria",
+  "Bahrain",
+  "Belgium",
+  "Cambodia",
+  "Canada",
+  "China",
+  "Croatia",
+  "Egypt",
+  "Finland",
+  "France",
+  "Germany",
+  "Hong Kong",
+  "India",
+  "Iran",
+  "Israel",
+  "Italy",
+  "Japan",
+  "Kuwait",
+  "Lebanon",
+  "Malaysia",
+  "Nepal",
+  "Phillipines",
+  "Russia",
+  "Singapore",
+  "South Korea",
+  "Spain",
+  "Sri Lanka",
+  "Sweden",
+  "Switzerland",
+  "Taiwan",
+  "Thailand",
+  "UAE",
+  "UK",
+  "USA",
+  "Vietnam",
+];
+const age = ["18", "23", "24"];
+const sex = ["male", "female", "Other"];
 
 export default function Home() {
+  const [data, setData] = React.useState(null);
   const [value, setValue] = React.useState({
-    countries: countries[0],
-    sex: sex[0],
+    country: countries[0],
+    age: age[0],
+    gender: sex[0],
   });
   const [inputValue, setInputValue] = React.useState({
-    countries: "",
-    sex: "",
+    country: "",
+    age: "",
+    gender: "",
   });
+
+  const handleSubmit = () => {
+    axios
+      .get(`/analytics/search/`, {
+        params: {
+          data: value,
+        },
+      })
+      .then(({ data }) => {
+        console.log("Successfully talked to the server!: ", data.filteredData);
+        setData(data.filteredData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleValueChange = (key, v) => {
+    let newValue = value;
+    newValue[key] = v;
+    setValue(newValue);
+  };
+
+  const handleInputChange = (key, v) => {
+    let newValue = inputValue;
+    newValue[key] = v;
+    setInputValue(newValue);
+  };
+
   return (
     <>
       <Navbar />
@@ -31,24 +103,29 @@ export default function Home() {
             Helping you understand the current state of Covid-19
           </div>
           <Container maxWidth="lg">
-            <Grid container spacing={5}>
+            <Grid
+              container
+              className={styles.gridContainer}
+              justify="center"
+              spacing={5}
+            >
               {/* Country Autocompete */}
               <Grid item xs={4}>
                 <Autocomplete
-                  value={value.countries}
+                  value={value.country}
                   onChange={(event, newValue) => {
-                    setValue({ ...value,countries: newValue });
+                    handleValueChange("country", newValue);
                   }}
-                  // inputValue={inputValue.countries}
+                  // inputValue={inputValue.country}
                   // onInputChange={(event, newInputValue) => {
-                  //   setInputValue({ countries: newInputValue });
+                  //   handleInputChange("country", newInputValue);
                   // }}
-                  id="controllable-states-demo"
                   options={countries}
-                  style={{ width: 300 }}
+                  // style={{ width: 300 }}
                   renderInput={(params) => (
                     <TextField {...params} label="Country" variant="outlined" />
                   )}
+                  blurOnSelect
                 />
               </Grid>
 
@@ -57,35 +134,51 @@ export default function Home() {
                 <Autocomplete
                   value={value.age}
                   onChange={(event, newValue) => {
-                    setValue({...value,age: newValue});
+                    handleValueChange("age", newValue);
                   }}
-                  id="controllable-states-demo"
+                  // inputValue={inputValue.age}
+                  // onInputChange={(event, newInputValue) => {
+                  //   handleInputChange("age", newInputValue);
+                  // }}
+                  // id="controllable-states-demo"
                   options={age}
-                  style={{ width: 300 }}
+                  // style={{ width: 300 }}
                   renderInput={(params) => (
                     <TextField {...params} label="Age" variant="outlined" />
                   )}
+                  blurOnSelect
                 />
               </Grid>
 
-              {/* Sex autocomplete */}
+              {/* Gender autocomplete */}
               <Grid item xs={4}>
                 <Autocomplete
-                  value={value.sex}
+                  value={value.gender}
                   onChange={(event, newValue) => {
-                    setValue({ ...value,sex: newValue });
+                    handleValueChange("gender", newValue);
                   }}
-                  // inputValue={inputValue.sex}
+                  // inputValue={inputValue.gender}
                   // onInputChange={(event, newInputValue) => {
-                  //   setInputValue({ ...inputValue, sex: newInputValue });
+                  //   handleInputChange("gender", newInputValue);
                   // }}
-                  id="controllable-states-demo"
+                  // id="controllable-states-demo"
                   options={sex}
-                  style={{ width: 300 }}
+                  // style={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Sex" variant="outlined" />
+                    <TextField {...params} label="Gender" variant="outlined" />
                   )}
+                  blurOnSelect
                 />
+              </Grid>
+
+              <Grid className={styles.submit} item xs={12}>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  color="primary"
+                >
+                  Submit
+                </Button>
               </Grid>
             </Grid>
           </Container>
