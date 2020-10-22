@@ -1,7 +1,7 @@
 import styles from '../../styles/components/Navbar.module.css'
 import Link from 'next/link'
 
-const BGMCard = () => {
+const Navbar = () => {
 
   return (
     <div className={styles.container}>
@@ -18,4 +18,4 @@ const BGMCard = () => {
   )
 }
 
-export default BGMCard
+export default Navbar
