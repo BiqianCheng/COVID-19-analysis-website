@@ -6,12 +6,12 @@ const router = express.Router()
 router.get('/search', async (req: any, res) => {
   const {columns, data} = parseCSV()
 
+  // turn the inputs from the client into a JSON Object
   let queryInputs = JSON.parse(req.query.data)
-  let filter = {...queryInputs}
 
   const filteredData = data.filter( entry => {
-    for (let key in filter) {
-      if (entry[key] === undefined || entry[key].toLowerCase() != filter[key].toLowerCase())
+    for (let key in queryInputs) {
+      if (entry[key] === undefined || entry[key].toLowerCase() != queryInputs[key].toLowerCase())
         return false;
     }
     return true;
