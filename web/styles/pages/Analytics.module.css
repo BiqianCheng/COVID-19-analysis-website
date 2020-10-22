@@ -27,13 +27,22 @@
   margin: 20px 0px;
 }
 
+.analytics {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 1424px;
+  margin: 0 auto;
+}
+
 .table {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 1024px;
-  margin: 0 auto;
+  flex: 1;
+  margin-right: 10px;
 }
 
 .row {
@@ -58,5 +67,11 @@
 
 .column {
   color: white;
+}
+
+.charts {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
