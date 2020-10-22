@@ -16,6 +16,16 @@
 .description {
   line-height: 1.5;
   font-size: 1.5rem;
-  opacity: .8;
+  opacity: 0.8;
 }
 
+.gridContainer {
+  padding-top: 50px;
+}
+
+.submit{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
