@@ -106,9 +106,6 @@ const DataTable = ({ data }) => {
     )
   })
 
-
-  console.log("Test ??: ", rows)
-
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>

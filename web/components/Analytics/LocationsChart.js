@@ -26,8 +26,6 @@ const LocationsChart = ({ data }) => {
       locationsData[key] = locationsData[key] ? locationsData[key] + 1 : 1
     })
 
-    console.log("Test: ", locationsData)
-
     let chartData = {
       labels: Object.keys(locationsData),
       datasets: [{
@@ -57,7 +55,7 @@ const LocationsChart = ({ data }) => {
   }
 
   return (
-    <Bar data={() => getChartData()} options={chartOptions} width="600" height="400" />
+    <Bar data={() => getChartData()} options={chartOptions} width={600} height={400} />
   )
 }
 
