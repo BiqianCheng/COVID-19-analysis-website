@@ -8,9 +8,9 @@ import Paper from "@material-ui/core/Paper";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 
-const countries = ["The United States", "Brazil", "India", "Russia", "China"];
-const age = ["18","23","24"];
-const sex = ["Male", "Female", "Other"];
+const countries = ["Afghanistan", "Algeria", "Australia", "Austria", "Bahrain", "Belgium", "Cambodia", "Canada", "China", "Croatia", "Egypt", "Finland", "France", "Germany", "Hong Kong", "India", "Iran", "Israel", "Italy", "Japan", "Kuwait", "Lebanon", "Malaysia", "Nepal", "Phillipines", "Russia", "Singapore", "South Korea", "Spain", "Sri Lanka", "Sweden", "Switzerland", "Taiwan", "Thailand", "UAE", "UK", "USA", "Vietnam"];
+const age = ["18", "23", "24"];
+const sex = ["Male", "Female", "NA"];
 
 export default function Home() {
   const [value, setValue] = React.useState({
@@ -37,7 +37,7 @@ export default function Home() {
                 <Autocomplete
                   value={value.countries}
                   onChange={(event, newValue) => {
-                    setValue({ ...value,countries: newValue });
+                    setValue({ ...value, countries: newValue });
                   }}
                   // inputValue={inputValue.countries}
                   // onInputChange={(event, newInputValue) => {
@@ -57,7 +57,7 @@ export default function Home() {
                 <Autocomplete
                   value={value.age}
                   onChange={(event, newValue) => {
-                    setValue({...value,age: newValue});
+                    setValue({ ...value, age: newValue });
                   }}
                   id="controllable-states-demo"
                   options={age}
@@ -73,7 +73,7 @@ export default function Home() {
                 <Autocomplete
                   value={value.sex}
                   onChange={(event, newValue) => {
-                    setValue({ ...value,sex: newValue });
+                    setValue({ ...value, sex: newValue });
                   }}
                   // inputValue={inputValue.sex}
                   // onInputChange={(event, newInputValue) => {
