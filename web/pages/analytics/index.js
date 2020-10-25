@@ -35,6 +35,24 @@ export default function Analytics() {
       })
   }
 
+  const testInsertData = () => {
+    const jsonData = {
+      age: 33,
+      country: "USA",
+      location: "San Francisco",
+      gender: "male",
+      recovered: true,
+      death: false
+    }
+
+    axios.post(`/analytics/insert/`, { jsonData })
+      .then(({ data }) => {
+        console.log("Succesfully inserted data into file: ", data.csv)
+      }).catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <>
       <Navbar />
@@ -46,6 +64,7 @@ export default function Analytics() {
         </div>
         <div className={styles.contentWrapper}>
           <Button variant="contained" color="primary" onClick={testQueryServer}>Test Query Server</Button>
+          <Button variant="contained" color="primary" onClick={testInsertData}>Test Insert Data</Button>
         </div>
         {loading &&
           <div className={styles.loading}>

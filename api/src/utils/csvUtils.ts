@@ -18,13 +18,12 @@ export const parseCSV = () => {
     entry = entry.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
     dataArray.push(entry.reduce((json, value, key) => { json[columnHeaders[key]] = value; return json; }, {}))
   }
-  
 
   // return an object containing an array of the column names 
   // and an array of json objects parsed from the .csv file
   return ({
     columns: columnHeaders,
-    data: dataArray
+    data: dataArray.splice(1) // remove column header row
   })
 }
 
