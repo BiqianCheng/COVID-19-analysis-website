@@ -45,7 +45,7 @@ export default function Analytics() {
       death: false
     }
 
-    axios.post(`/analytics/insert/`, { jsonData })
+    axios.post(`/admin/insert/`, { jsonData })
       .then(({ data }) => {
         console.log("Succesfully inserted data into file: ", data.csv)
       }).catch((error) => {

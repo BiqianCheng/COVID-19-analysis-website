@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import testRoutes from './routes/test/test.routes';
 import analyticsRoutes from './routes/analytics/analytics.routes';
+import adminRoutes from './routes/admin/admin.routes';
 import cors from 'cors';
 
 export let CLIENT_URL = process.env.PRODUCTION
@@ -30,6 +30,7 @@ class App {
 
   routes() {
     this.app.use('/analytics', analyticsRoutes);
+    this.app.use('/admin', adminRoutes);
   }
 
 }
