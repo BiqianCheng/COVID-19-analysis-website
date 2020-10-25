@@ -14,6 +14,9 @@ const Navbar = () => {
       <Link href="/analytics">
         <a className={styles.link}>Analytics</a>
       </Link>
+      <Link href="/admin">
+        <a className={styles.link}>Admin</a>
+      </Link>
     </div >
   )
 }
