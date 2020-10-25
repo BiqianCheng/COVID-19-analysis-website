@@ -1,4 +1,5 @@
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -80,8 +81,8 @@ function createData(index, reporting_date, country, location, age, gender, death
 const DataTable = ({ data }) => {
 
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

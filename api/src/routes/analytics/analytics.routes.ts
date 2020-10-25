@@ -18,8 +18,20 @@ router.get('/search', async (req: any, res) => {
   })
 
   res.json({
-    filteredData: filteredData
+    filteredData: filteredData.splice(1) // remove column header row
   })
+})
+
+router.post('/insert', async (req: any, res) => {
+  res.json({})
+})
+
+router.put('/update/:id', async (req: any, res) => {
+  res.json({})
+})
+
+router.delete('/delete/:id', async (req: any, res) => {
+  res.json({})
 })
 
 router.get('/test', async (req: any, res) => {
