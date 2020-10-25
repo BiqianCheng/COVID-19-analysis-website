@@ -1,7 +1,5 @@
 import express from 'express'
-const { Parser } = require('json2csv');
 import parseCSV from '../../utils/csvUtils'
-const fs = require('fs');
 
 const router = express.Router()
 
