@@ -67,9 +67,28 @@ export default function Analytics() {
 
     axios.put(`/admin/update/${id}`, { jsonData })
       .then(({ data }) => {
-        console.log("Succesfully updated data in the dataset: ", data.csv)
+        console.log("Succesfully updated data in the dataset: ", data.updatedData)
       }).catch((error) => {
-        console.log(error)
+        if (error.response) {
+          console.log(error.response.data)
+        } else {
+          console.log(error)
+        }
+      })
+  }
+
+  const testDeleteData = () => {
+    let id = 1089
+
+    axios.delete(`/admin/delete/${id}`)
+      .then(() => {
+        console.log("Succesfully deleted data in the dataset: ", id)
+      }).catch((error) => {
+        if (error.response) {
+          console.log(error.response.data)
+        } else {
+          console.log(error)
+        }
       })
   }
 
@@ -87,6 +106,7 @@ export default function Analytics() {
           <Button variant="contained" color="primary" onClick={testQueryServer}>Test Query Server</Button>
           <Button variant="contained" color="primary" onClick={testInsertData}>Test Insert Data</Button>
           <Button variant="contained" color="primary" onClick={testUpdateData}>Test Update Data</Button>
+          <Button variant="contained" color="primary" onClick={testDeleteData}>Test Delete Data</Button>
         </div>
         {loading &&
           <div className={styles.loading}>

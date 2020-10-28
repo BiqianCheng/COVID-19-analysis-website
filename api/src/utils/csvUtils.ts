@@ -20,11 +20,15 @@ export const parseCSV = () => {
     dataArray.push(entry.reduce((json, value, key) => { json[columnHeaders[key]] = value; return json; }, {}))
   }
 
+  const [idKey] = Object.keys(dataArray[0])
+
   // return an object containing an array of the column names 
   // and an array of json objects parsed from the .csv file
   return ({
     columns: columnHeaders,
     columnsJSON: dataArray[0],
+    idKey: idKey,
+    csvArray: csvData,
     data: dataArray.splice(1) // remove column header row
   })
 }

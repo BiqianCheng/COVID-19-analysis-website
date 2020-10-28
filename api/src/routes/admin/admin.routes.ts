@@ -40,43 +40,81 @@ router.put('/update/:id', async (req: any, res) => {
   const { id } = req.params
   const { jsonData } = req.body
 
-  let {columns, columnsJSON, data} = parseCSV()
+  let {columns, csvArray, idKey, data} = parseCSV()
 
-  // update row of data according to id
-  data = [columnsJSON, ...data]
-
-  for (let key in jsonData) {
-    data[id][key] = jsonData[key]
-  }
-
-  // remove newline in each data row and let json2csv parser handle that
-  data = data.map(e => {
-    delete e["\r"]
-    return e
+  // get index of data in the csv file based on unique id
+  let index 
+  const found = data.filter((element, i) => {
+    if (element[idKey] == id) {
+      index = i+1
+      return element
+    }
   })
 
-  data.pop() // Remove newline data row
+  if (!found.length) {
+    return res.status(404).json({ 
+      error: 'Data based on that ID not found in the dataset ./src/db/COVID19_line_list_data.csv' 
+    })
+  }
+
+  // Update keys based on input and leave the rest of the keys untouched
+  for (let key in jsonData) {
+    data[index][key] = jsonData[key]
+  }
 
   const parser = new Parser({
     fields: columns,
     header: false,
     quote: ''
   })
+
   // parse updated data to csv
-  // "\r\n"  to re-add the newline at the end of the file after it has been parsed
-  const csv = parser.parse(data) + "\r\n" 
+  const updatedDataCsv = parser.parse(data[index])
+
+  // replace csv row at index id with updated data
+  csvArray.splice(index, 1, updatedDataCsv)
+  const csv = csvArray.join('\n')
 
   fs.writeFile("./src/db/COVID19_line_list_data.csv", csv, (err) => { 
     if(err) { return console.log(err); }
-    console.log(`Data ${id} has been updated to `, data[id])
+    console.log(`Data ${id} has been updated to `, data[index])
     console.log("Successfully updated the dataset")
   }); 
 
-  res.json({})
+  res.json({
+    updatedData: data[id]
+  })
 })
 
 router.delete('/delete/:id', async (req: any, res) => {
   const { id } = req.params
+  let {csvArray, idKey, data} = parseCSV()
+
+  // get index of data in the csv file based on unique id
+  let index 
+  const found = data.filter((element, i) => {
+    if (element[idKey] == id) {
+      index = i+1
+      return element
+    }
+  })
+
+  if (!found.length) {
+    return res.status(404).json({ 
+      error: "Data based on that ID not found in the dataset ./src/db/COVID19_line_list_data.csv" 
+    })
+  }
+
+  // delete data at index found above
+  csvArray.splice(index, 1) 
+  // turn array into one big string merged according to the delimiter '\n'
+  csvArray = csvArray.join('\n')
+
+  fs.writeFile("./src/db/COVID19_line_list_data.csv", csvArray, (err) => { 
+    if(err) { return console.log(err); }
+    console.log(`Data ${id} has been deleted`)
+  }); 
+
 
   res.json({})
 })

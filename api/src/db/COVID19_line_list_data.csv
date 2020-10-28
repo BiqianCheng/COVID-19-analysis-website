@@ -1086,5 +1086,6 @@ id,case_in_country,reporting date,,summary,location,country,gender,age,symptom_o
 1085,1,2/25/2020,,"new COVID-19 patient confirmed in Switzerland: male, 70, infected in Milan during an event 2/15, symptom onset 2/17",Bern,Switzerland,male,70,2/17/2020,NA,NA,2/15/2020,2/15/2020,0,0,0,0,,Reuters,https://www.reuters.com/article/uk-switzerland-coronavirus/swiss-authorities-confirm-first-case-of-coronavirus-idUSKBN20J1ZO,,,,,,
 1086,,,,,"San Francisco","USA","male",33,,,,,,,,false,true,,,,,,,,,
 1087,,,,,"San Francisco","USA","male",33,,,,,,,,false,true,,,,,,,,,
-1088,,,,,Los Angeles,USA,female,54,,,,,,,,false,true,,,,,,,,,
+1089,,,,,Los Angeles,USA,female,54,,,,,,,,false,true,,,,,,,,,
 1089,,,,,"San Francisco","USA","male",33,,,,,,,,false,true,,,,,,,,,
+1090,,,,,"San Francisco","USA","male",33,,,,,,,,false,true,,,,,,,,,
