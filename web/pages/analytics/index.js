@@ -53,6 +53,27 @@ export default function Analytics() {
       })
   }
 
+  const testUpdateData = () => {
+    let id = 1088
+
+    const jsonData = {
+      age: 54,
+      country: "USA",
+      location: "Los Angeles",
+      gender: "female",
+      recovered: true,
+      death: false
+    }
+
+    axios.put(`/admin/update/${id}`, { jsonData })
+      .then(({ data }) => {
+        console.log("Succesfully updated data in the dataset: ", data.csv)
+      }).catch((error) => {
+        console.log(error)
+      })
+  }
+
+
   return (
     <>
       <Navbar />
@@ -65,6 +86,7 @@ export default function Analytics() {
         <div className={styles.contentWrapper}>
           <Button variant="contained" color="primary" onClick={testQueryServer}>Test Query Server</Button>
           <Button variant="contained" color="primary" onClick={testInsertData}>Test Insert Data</Button>
+          <Button variant="contained" color="primary" onClick={testUpdateData}>Test Update Data</Button>
         </div>
         {loading &&
           <div className={styles.loading}>

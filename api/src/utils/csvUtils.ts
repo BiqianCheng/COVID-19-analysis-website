@@ -2,12 +2,13 @@ const fs = require('fs');
 
 export const parseCSV = () => {
   let columnHeaders = []
+  let columnsCSV = ""
   let dataArray = []
   let csvData = fs.readFileSync('./src/db/COVID19_line_list_data.csv', 'utf8');
 
   // create a new array by splitting the raw data csv based on newlines
   csvData = csvData.split('\n');
-  
+  columnsCSV = csvData[0]
   // get an array of the column headers
   columnHeaders = csvData[0].split(',')
 
@@ -23,6 +24,7 @@ export const parseCSV = () => {
   // and an array of json objects parsed from the .csv file
   return ({
     columns: columnHeaders,
+    columnsJSON: dataArray[0],
     data: dataArray.splice(1) // remove column header row
   })
 }
