@@ -15,11 +15,11 @@ router.post('/insert', async (req: any, res) => {
   // Thus obj.id won't work must use Object.keys and get the key value directly
   // console.log(lastIdKey[0].split(''))
 
-  console.log("Json Data: ", jsonData)
   jsonData[lastIdKey] = Number(lastIdValue)+1
   const parser = new Parser({
     fields: columns,
     header: false,
+    quote: ''
   })
 
   // parsed json + newline
@@ -27,8 +27,7 @@ router.post('/insert', async (req: any, res) => {
 
   fs.appendFile('./src/db/COVID19_line_list_data.csv', csv, (err) => {
     if (err) console.error('Couldn\'t append the data');
-    console.log("CSV Data: ", csv)
-    console.log('The data was appended to file!');
+    console.log('The data was inserted to the file!', csv);
   });
 
   res.json({
@@ -52,7 +51,7 @@ router.put('/update/:id', async (req: any, res) => {
   })
 
   if (!found.length) {
-    return res.status(404).json({ 
+    res.status(404).json({ 
       error: 'Data based on that ID not found in the dataset ./src/db/COVID19_line_list_data.csv' 
     })
   }
@@ -78,7 +77,6 @@ router.put('/update/:id', async (req: any, res) => {
   fs.writeFile("./src/db/COVID19_line_list_data.csv", csv, (err) => { 
     if(err) { return console.log(err); }
     console.log(`Data ${id} has been updated to `, data[index])
-    console.log("Successfully updated the dataset")
   }); 
 
   res.json({
@@ -100,7 +98,7 @@ router.delete('/delete/:id', async (req: any, res) => {
   })
 
   if (!found.length) {
-    return res.status(404).json({ 
+    res.status(404).json({ 
       error: "Data based on that ID not found in the dataset ./src/db/COVID19_line_list_data.csv" 
     })
   }

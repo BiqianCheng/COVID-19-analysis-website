@@ -9,7 +9,7 @@ export const parseCSV = () => {
   // create a new array by splitting the raw data csv based on newlines
   csvData = csvData.split('\n');
   columnsCSV = csvData[0]
-  // get an array of the column headers
+  // get an array of the column headers delimited by commas
   columnHeaders = csvData[0].split(',')
 
   // loop through data and split data string based on commas while ignoring commas inside double quotes 
@@ -17,19 +17,20 @@ export const parseCSV = () => {
   // and parse into json using reduce loop to match column header array as keys to data as the values
   for ( let entry of csvData) {
     entry = entry.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-    dataArray.push(entry.reduce((json, value, key) => { json[columnHeaders[key]] = value; return json; }, {}))
+    dataArray.push(entry.reduce((json, value, key) => { 
+      json[columnHeaders[key]] = value; return json; 
+    }, {})
+    )
   }
 
   const [idKey] = Object.keys(dataArray[0])
 
-  // return an object containing an array of the column names 
-  // and an array of json objects parsed from the .csv file
   return ({
-    columns: columnHeaders,
-    columnsJSON: dataArray[0],
-    idKey: idKey,
-    csvArray: csvData,
-    data: dataArray.splice(1) // remove column header row
+    columns: columnHeaders, // array of column headers
+    columnsJSON: dataArray[0], // columns in json
+    idKey: idKey, // id key string (since their's an empty string in front for some reason)
+    csvArray: csvData, // csv row by row array
+    data: dataArray.splice(1) // data json
   })
 }
 

@@ -92,7 +92,6 @@ export default function Analytics() {
       })
   }
 
-
   return (
     <>
       <Navbar />
