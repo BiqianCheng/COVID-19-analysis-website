@@ -8,9 +8,9 @@ import Paper from "@material-ui/core/Paper";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import DataTable from '../components/Analytics/DataTable';
-import LocationsChart from '../components/Analytics/LocationsChart';
-import { CircularProgress } from '@material-ui/core'
+import DataTable from "../components/Analytics/DataTable";
+import LocationsChart from "../components/Analytics/LocationsChart";
+import { CircularProgress } from "@material-ui/core";
 
 const countries = [
   "Afghanistan",
@@ -53,6 +53,9 @@ const countries = [
   "Vietnam",
 ];
 const sex = ["male", "female", "Other"];
+const confirmed = ["Yes","No"];
+const recovered = ["Yes","No"];
+const death = ["Yes","No"];
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -60,18 +63,24 @@ export default function Home() {
     country: countries[0],
     age: 0,
     gender: sex[0],
+    confirmed: confirmed[0],
+    recovered: recovered[0],
+    death: death[0],
   });
   const [inputValue, setInputValue] = useState({
     country: "",
     age: "",
     gender: "",
+    confirmed: "",
+    recovered: "",
+    death: "",
   });
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = () => {
-    setLoading(true)
+    setLoading(true);
     if (data) {
-      setData(null)
+      setData(null);
     }
     axios
       .get(`/analytics/search/`, {
@@ -86,8 +95,8 @@ export default function Home() {
         console.log(error);
       })
       .finally(() => {
-        setLoading(false)
-      })
+        setLoading(false);
+      });
   };
 
   const handleValueChange = (key, v) => {
@@ -140,7 +149,11 @@ export default function Home() {
 
               {/* Age selection */}
               <Grid item xs={2}>
-                <TextField onChange={e => handleValueChange("age", e.target.value)} label="Age" variant="outlined" />
+                <TextField
+                  onChange={(e) => handleValueChange("age", e.target.value)}
+                  label="Age"
+                  variant="outlined"
+                />
               </Grid>
 
               {/* Gender autocomplete */}
@@ -164,6 +177,74 @@ export default function Home() {
                 />
               </Grid>
 
+              {/* Recovered input*/}
+              <Grid item xs={4}>
+                <Autocomplete
+                  value={value.recovered}
+                  onChange={(event, newValue) => {
+                    handleValueChange("recovered", newValue);
+                  }}
+                  // inputValue={inputValue.country}
+                  // onInputChange={(event, newInputValue) => {
+                  //   handleInputChange("country", newInputValue);
+                  // }}
+                  options={recovered}
+                  // style={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="recovered"
+                      variant="outlined"
+                    />
+                  )}
+                  blurOnSelect
+                />
+              </Grid>
+
+              {/* confirmed Autocompete */}
+              <Grid item xs={4}>
+                <Autocomplete
+                  value={value.confirmed}
+                  onChange={(event, newValue) => {
+                    handleValueChange("confirmed", newValue);
+                  }}
+                  // inputValue={inputValue.country}
+                  // onInputChange={(event, newInputValue) => {
+                  //   handleInputChange("country", newInputValue);
+                  // }}
+                  options={confirmed}
+                  // style={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="confirmed"
+                      variant="outlined"
+                    />
+                  )}
+                  blurOnSelect
+                />
+              </Grid>
+
+              {/* death Autocompete */}
+              <Grid item xs={4}>
+                <Autocomplete
+                  value={value.death}
+                  onChange={(event, newValue) => {
+                    handleValueChange("death", newValue);
+                  }}
+                  // inputValue={inputValue.country}
+                  // onInputChange={(event, newInputValue) => {
+                  //   handleInputChange("country", newInputValue);
+                  // }}
+                  options={death}
+                  // style={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="death" variant="outlined" />
+                  )}
+                  blurOnSelect
+                />
+              </Grid>
+
               <Grid className={styles.submit} item xs={12}>
                 <Button
                   variant="contained"
@@ -176,13 +257,13 @@ export default function Home() {
             </Grid>
           </Container>
 
-          {loading &&
+          {loading && (
             <div className={styles.loading}>
-              <CircularProgress style={{ color: 'black' }} size={16} />
+              <CircularProgress style={{ color: "black" }} size={16} />
             </div>
-          }
+          )}
 
-          {data &&
+          {data && (
             <div className={styles.analytics}>
               <div className={styles.table}>
                 <DataTable data={data} key={data} />
@@ -191,7 +272,7 @@ export default function Home() {
                 <LocationsChart data={data} />
               </div>
             </div>
-          }
+          )}
         </div>
       </div>
     </>
