@@ -5,34 +5,23 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import DataTable from "../../components/Analytics/DataTable";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
+import CustomDialog from "../../components/Admin/CustomDialog";
+import CustomSnack from "../../components/Admin/CustomSnack";
 
 export default function Analytics() {
-  const [open, setOpen] = React.useState(false);
+  const [popUpOpen, setpopUpOpen] = React.useState(false);
+  const [action, setAction] = React.useState("none");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     country: "",
+    location: "",
     age: "",
     gender: "",
     recovered: "",
     death: "",
   });
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleInsertData = () => {};
   useEffect(() => {
     setLoading(true);
     axios
@@ -42,8 +31,8 @@ export default function Analytics() {
         },
       })
       .then(({ data }) => {
-        console.log("Successfully talked to the server!: ", data.filteredData);
         setData(data.filteredData);
+        console.log("Successfully talked to the server!: ", data.filteredData);
       })
       .catch((error) => {
         console.log(error);
@@ -53,7 +42,23 @@ export default function Analytics() {
       });
   }, []);
 
-  const handleChange = (evt) => {
+  const handlePopUpOpen = () => {
+    setpopUpOpen(true);
+  };
+
+  const handlePopUpClose = () => {
+    setpopUpOpen(false);
+    setInput({
+      country: "",
+      location: "",
+      age: "",
+      gender: "",
+      recovered: "",
+      death: "",
+    });
+  };
+
+  const handlePopUpChange = (evt) => {
     const value = evt.target.value;
     setInput({
       ...input,
@@ -61,10 +66,26 @@ export default function Analytics() {
     });
   };
 
-  const handleSubmit = () => {
-    setOpen(false);
-    console.log(input);
-    setInput({ country: "", age: "", gender: "", recovered: "", death: "" });
+  const handlePopUpSumbit = () => {
+    const jsonData = input;
+    axios
+      .post(`/admin/insert/`, { jsonData })
+      .then(({ data }) => {
+        console.log("Succesfully inserted data into file: ", data.csv);
+        setAction("error");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setpopUpOpen(false);
+    setInput({
+      country: "",
+      location: "",
+      age: "",
+      gender: "",
+      recovered: "",
+      death: "",
+    });
   };
 
   return (
@@ -75,96 +96,25 @@ export default function Analytics() {
           <div className={styles.title}>Admin</div>
         </div>
         <div className={styles.contentWrapper}>
-          <Button variant="contained" color="primary" onClick={handleClickOpen}>
+          <Button variant="contained" color="primary" onClick={handlePopUpOpen}>
             Insert Data
           </Button>
         </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Add New Data</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Insert your data below:</DialogContentText>
-            <Grid
-              container
-              className={styles.gridContainer}
-              justify="center"
-              spacing={1}
-            >
-              <Grid item xs={12}>
-                <TextField
-                  onChange={handleChange}
-                  value={input.country}
-                  variant="outlined"
-                  size="small"
-                  autoFocus
-                  margin="dense"
-                  id="country"
-                  label="country"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  onChange={handleChange}
-                  value={input.age}
-                  variant="outlined"
-                  autoFocus
-                  margin="dense"
-                  id="age"
-                  label="Age"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  onChange={handleChange}
-                  value={input.gender}
-                  variant="outlined"
-                  autoFocus
-                  margin="dense"
-                  id="gender"
-                  label="Gender"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  onChange={handleChange}
-                  value={input.recovered}
-                  variant="outlined"
-                  autoFocus
-                  margin="dense"
-                  id="recovered"
-                  label="Recovered"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  onChange={handleChange}
-                  value={input.death}
-                  variant="outlined"
-                  autoFocus
-                  margin="dense"
-                  id="death"
-                  label="Death"
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="primary">
-              Submit
-            </Button>
-          </DialogActions>
-        </Dialog>
+
+        <CustomDialog
+          open={popUpOpen}
+          input={input}
+          handlePopUpClose={handlePopUpClose}
+          handlePopUpSumbit={handlePopUpSumbit}
+          handlePopUpChange={handlePopUpChange}
+        />
+        <CustomSnack
+          action={action}
+          setAction={setAction}
+          severity="success"
+          message="Opreation Successful"
+        />
+
         {loading && (
           <div className={styles.loading}>
             <CircularProgress style={{ color: "black" }} size={16} />
@@ -172,7 +122,15 @@ export default function Analytics() {
         )}
         {data && (
           <div className={styles.table}>
-            <DataTable data={data} key={data} />
+            <DataTable
+              data={data}
+              key={data}
+              action={action}
+              setAction={setAction}
+              handlePopupOpen={handlePopUpOpen}
+              input={input}
+              setInput={setInput}
+            />
           </div>
         )}
       </div>

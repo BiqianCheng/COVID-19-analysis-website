@@ -14,7 +14,7 @@ export default function Analytics() {
 
   const testQueryServer = () => {
     const testInputs = {
-      "country": "UK",
+      "country": "USA",
       // "age": "53",
       // "gender": "male"
     }
