@@ -1,3 +1,4 @@
+import { json } from 'body-parser';
 import express from 'express'
 const { Parser } = require('json2csv');
 import parseCSV from '../../utils/csvUtils'
@@ -14,8 +15,12 @@ router.post('/insert', async (req: any, res) => {
   // After testing. This console.log proves that the id key has an empty string in front of it.
   // Thus obj.id won't work must use Object.keys and get the key value directly
   // console.log(lastIdKey[0].split(''))
-
   jsonData[lastIdKey] = Number(lastIdValue)+1
+
+  // populate reporting date with date of insert
+  var today = new Date();
+  jsonData["reporting date"] = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
+
   const parser = new Parser({
     fields: columns,
     header: false,
