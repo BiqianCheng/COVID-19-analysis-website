@@ -124,11 +124,12 @@ const DataTable = ({ data, action, setAction }) => {
   };
 
   const handleDeletion = (row) => {
-    const id = row.index;
+    const index = row.index;
+    console.log("Deleteing by row index: ", row.index);
     axios
-      .delete(`/admin/delete/${id}`)
+      .delete(`/admin/delete/${index}`)
       .then(() => {
-        console.log("Succesfully deleted data in the dataset: ", id);
+        console.log("Succesfully deleted data in the dataset: ", index);
         setAction("delete");
       })
       .catch((error) => {
@@ -147,11 +148,11 @@ const DataTable = ({ data, action, setAction }) => {
   };
 
   const handlePopUpSumbit = () => {
-    const id = input.id;
+    const index = input.index;
     const jsonData = input;
     handlePopUpClose();
     axios
-      .put(`/admin/update/${id}`, { jsonData })
+      .put(`/admin/update/${index}`, { jsonData })
       .then(({ data }) => {
         console.log(
           "Succesfully updated data in the dataset: ",
