@@ -106,7 +106,7 @@ const DataTable = ({ data, action, setAction }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
- 
+
   const handlePopUpOpen = () => {
     setPopUpOpen(true);
   };
@@ -124,8 +124,7 @@ const DataTable = ({ data, action, setAction }) => {
   };
 
   const handleDeletion = (row) => {
-    const id = row.id;
-    console.log(row.id);
+    const id = row.index;
     axios
       .delete(`/admin/delete/${id}`)
       .then(() => {
@@ -195,8 +194,8 @@ const DataTable = ({ data, action, setAction }) => {
                   </StyledTableCell>
                 </React.Fragment>
               ) : (
-                <></>
-              )}
+                  <></>
+                )}
               {columns.map((column) => (
                 <StyledTableCell
                   key={column.id}
@@ -239,8 +238,8 @@ const DataTable = ({ data, action, setAction }) => {
                         </Button>
                       </StyledTableCell>
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
