@@ -115,6 +115,9 @@ router.delete('/delete/:index', async (req: any, res) => {
   res.json({})
 })
 
+// Copies the content of the active data set (.aka ./src/db/COVID19_line_list_data.csv )
+// and pastes it into a new file located in ./src/db/backups 
+// and named with a time stamp (yyyy-mm-dd-hh-mm) prefixed to it
 router.get('/backup', async (req: any, res) => {
   let today = new Date()
   let newBackupFile = `./src/db/backups/${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}-${today.getHours()}-${today.getMinutes()}-${activeDataset.slice(17)}`
@@ -128,6 +131,8 @@ router.get('/backup', async (req: any, res) => {
   })
 })
 
+// Chooses a file from the backups folder to overwrite the active dataset with
+// The active dataset is located at ./src/db/COVID19_line_list_data.csv
 router.post('/import', async (req: any, res) => {
   const { file } = req.body
   if (!file) {
@@ -145,6 +150,7 @@ router.post('/import', async (req: any, res) => {
   res.json({})
 })
 
+// Gets an array of the files located in the folder ./src/db/backups
 router.get('/import/options', async (req: any, res) => {
   fs.readdir("./src/db/backups", (err, files) => {
     res.json({
