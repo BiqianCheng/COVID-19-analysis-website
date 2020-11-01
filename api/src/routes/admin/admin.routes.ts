@@ -6,6 +6,9 @@ const fs = require('fs');
 
 const router = express.Router()
 
+const backupDataFile = "./src/db/backups/COVID19_line_list_data.csv"
+const originalDataFile = "./src/db/COVID19_line_list_data.csv"
+
 router.post('/insert', async (req: any, res) => {
   let { jsonData } = req.body
   const {columns, data} = parseCSV()
@@ -110,6 +113,28 @@ router.delete('/delete/:index', async (req: any, res) => {
     console.log(`Data ${index} has been deleted`)
   }); 
 
+  res.json({})
+})
+
+router.get('/backup', async (req: any, res) => {
+  let today = new Date()
+  let newBackupFile = `${backupDataFile.slice(0,17)}${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}-${today.getHours()}-${today.getMinutes()}-${backupDataFile.slice(17)}`
+  fs.copyFile(backupDataFile, newBackupFile, (err) => { 
+    if(err) { return console.log(err); }
+    console.log(`Backed up data into a new dataset`)
+  }); 
+
+  res.json({
+    fileName: newBackupFile
+  })
+})
+
+router.get('/import', async (req: any, res) => {
+
+  fs.copyFile(originalDataFile, backupDataFile, (err) => { 
+    if(err) { return console.log(err); }
+    console.log(`Imported original data into dataset`)
+  }); 
 
   res.json({})
 })

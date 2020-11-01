@@ -88,6 +88,28 @@ export default function Analytics() {
     });
   };
 
+  const handleBackup = () => {
+    axios.get(`/admin/backup/`)
+      .then(({ data }) => {
+        console.log("Succesfully created backup: ", data.fileName);
+        setAction("error");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleImport = () => {
+    axios.get(`/admin/import/`)
+      .then(() => {
+        console.log("Succesfully imported dataset");
+        setAction("error");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <>
       <Navbar />
@@ -98,6 +120,12 @@ export default function Analytics() {
         <div className={styles.contentWrapper}>
           <Button variant="contained" color="primary" onClick={handlePopUpOpen}>
             Insert Data
+          </Button>
+          <Button variant="contained" color="primary" onClick={handleBackup}>
+            Backup Data
+          </Button>
+          <Button variant="contained" color="primary" onClick={handleImport}>
+            Import Data
           </Button>
         </div>
 

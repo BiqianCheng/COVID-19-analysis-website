@@ -21,6 +21,10 @@
   margin-bottom: 20px;
 }
 
+.contentWrapper button {
+  margin: 0px 15px;
+}
+
 .loading {
   display: flex;
   justify-content: center;
