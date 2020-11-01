@@ -5,12 +5,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import DataTable from "../../components/Analytics/DataTable";
+import ImportDialog from "../../components/Admin/ImportDialog";
 import CustomDialog from "../../components/Admin/CustomDialog";
 import CustomSnack from "../../components/Admin/CustomSnack";
 
 export default function Analytics() {
-  const [popUpOpen, setpopUpOpen] = React.useState(false);
-  const [action, setAction] = React.useState("none");
+  const [popUpOpen, setpopUpOpen] = useState(false);
+  const [action, setAction] = useState("none");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
@@ -21,6 +22,8 @@ export default function Analytics() {
     recovered: "",
     death: "",
   });
+
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -100,14 +103,7 @@ export default function Analytics() {
   }
 
   const handleImport = () => {
-    axios.get(`/admin/import/`)
-      .then(() => {
-        console.log("Succesfully imported dataset");
-        setAction("error");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setImportDialogOpen(true)
   }
 
   return (
@@ -122,12 +118,18 @@ export default function Analytics() {
             Insert Data
           </Button>
           <Button variant="contained" color="primary" onClick={handleBackup}>
-            Backup Data
+            Backup Dataset
           </Button>
           <Button variant="contained" color="primary" onClick={handleImport}>
-            Import Data
+            Import Dataset
           </Button>
         </div>
+
+        <ImportDialog
+          open={importDialogOpen}
+          onClose={() => setImportDialogOpen(false)}
+          setAction={setAction}
+        />
 
         <CustomDialog
           open={popUpOpen}

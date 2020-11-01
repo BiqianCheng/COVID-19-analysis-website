@@ -6,8 +6,7 @@ const fs = require('fs');
 
 const router = express.Router()
 
-const backupDataFile = "./src/db/backups/COVID19_line_list_data.csv"
-const originalDataFile = "./src/db/COVID19_line_list_data.csv"
+const activeDataset = "./src/db/COVID19_line_list_data.csv"
 
 router.post('/insert', async (req: any, res) => {
   let { jsonData } = req.body
@@ -33,7 +32,7 @@ router.post('/insert', async (req: any, res) => {
   // parsed json + newline
   const csv = parser.parse(jsonData) + "\r\n"
 
-  fs.appendFile('./src/db/COVID19_line_list_data.csv', csv, (err) => {
+  fs.appendFile(activeDataset, csv, (err) => {
     if (err) console.error('Couldn\'t append the data');
     console.log('The data was inserted to the file!', csv);
   });
@@ -56,7 +55,7 @@ router.put('/update/:index', async (req: any, res) => {
 
   if (!found) {
     res.status(404).json({ 
-      error: 'Data based on that ID not found in the dataset ./src/db/COVID19_line_list_data.csv' 
+      error: `Data based on that ID not found in the dataset ${activeDataset}` 
     })
   }
 
@@ -78,7 +77,7 @@ router.put('/update/:index', async (req: any, res) => {
   csvArray.splice(index+1, 1, updatedDataCsv)
   const csv = csvArray.join('\n')
 
-  fs.writeFile("./src/db/COVID19_line_list_data.csv", csv, (err) => { 
+  fs.writeFile(activeDataset, csv, (err) => { 
     if(err) { return console.log(err); }
     console.log(`Data ${index} has been updated to `, data[index])
   }); 
@@ -99,7 +98,7 @@ router.delete('/delete/:index', async (req: any, res) => {
 
   if (!found) {
     res.status(404).json({ 
-      error: "Data based on that ID not found in the dataset ./src/db/COVID19_line_list_data.csv" 
+      error: `Data based on that ID not found in the dataset ${activeDataset}` 
     })
   }
 
@@ -108,7 +107,7 @@ router.delete('/delete/:index', async (req: any, res) => {
   // turn array into one big string merged according to the delimiter '\n'
   csvArray = csvArray.join('\n')
 
-  fs.writeFile("./src/db/COVID19_line_list_data.csv", csvArray, (err) => { 
+  fs.writeFile(activeDataset, csvArray, (err) => { 
     if(err) { return console.log(err); }
     console.log(`Data ${index} has been deleted`)
   }); 
@@ -118,10 +117,10 @@ router.delete('/delete/:index', async (req: any, res) => {
 
 router.get('/backup', async (req: any, res) => {
   let today = new Date()
-  let newBackupFile = `${backupDataFile.slice(0,17)}${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}-${today.getHours()}-${today.getMinutes()}-${backupDataFile.slice(17)}`
-  fs.copyFile(backupDataFile, newBackupFile, (err) => { 
+  let newBackupFile = `./src/db/backups/${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}-${today.getHours()}-${today.getMinutes()}-${activeDataset.slice(17)}`
+  fs.copyFile(activeDataset, newBackupFile, (err) => { 
     if(err) { return console.log(err); }
-    console.log(`Backed up data into a new dataset`)
+    console.log(`Backed up data into a new dataset located at: ${newBackupFile}`)
   }); 
 
   res.json({
@@ -129,14 +128,30 @@ router.get('/backup', async (req: any, res) => {
   })
 })
 
-router.get('/import', async (req: any, res) => {
+router.post('/import', async (req: any, res) => {
+  const { file } = req.body
+  if (!file) {
+    res.status(404).json({ 
+      error: `File selector is empty` 
+    })
+  }
 
-  fs.copyFile(originalDataFile, backupDataFile, (err) => { 
+  let fileToImport = `./src/db/backups/${file}`
+  fs.copyFile(fileToImport, activeDataset, (err) => { 
     if(err) { return console.log(err); }
-    console.log(`Imported original data into dataset`)
+    console.log(`Imported data into working dataset`)
   }); 
 
   res.json({})
 })
+
+router.get('/import/options', async (req: any, res) => {
+  fs.readdir("./src/db/backups", (err, files) => {
+    res.json({
+      options: files
+    })
+  });
+})
+
 
 export default router
