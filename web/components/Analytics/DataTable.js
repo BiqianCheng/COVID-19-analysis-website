@@ -203,8 +203,8 @@ const DataTable = ({ data, action, setAction }) => {
                   </StyledTableCell>
                 </React.Fragment>
               ) : (
-                  <></>
-                )}
+                <></>
+              )}
               {columns.map((column) => (
                 <StyledTableCell
                   key={column.id}
@@ -247,8 +247,8 @@ const DataTable = ({ data, action, setAction }) => {
                         </Button>
                       </StyledTableCell>
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -276,6 +276,8 @@ const DataTable = ({ data, action, setAction }) => {
       />
       <div>
         <CustomDialog
+          title="Edit Data"
+          contentText="Modifiy your dataset below:"
           input={input}
           open={popUpOpen}
           handlePopUpChange={handlePopUpChange}

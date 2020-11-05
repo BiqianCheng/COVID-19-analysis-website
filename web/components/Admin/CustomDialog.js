@@ -21,9 +21,9 @@ export default function CustomDialog({
       onClose={handlePopUpClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Add New Data</DialogTitle>
+      <DialogTitle id="form-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>Insert your data below:</DialogContentText>
+        <DialogContentText>{contentText}</DialogContentText>
         {Object.keys(input).map((value, i) => {
           return (
             <TextField
