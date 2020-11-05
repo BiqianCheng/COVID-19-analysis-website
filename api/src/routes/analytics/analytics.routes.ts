@@ -5,9 +5,29 @@ const router = express.Router()
 
 router.get('/search', async (req: any, res) => {
   const {columns, data} = parseCSV()
+  let {queryInputs, startDate, endDate} = req.query
 
   // turn the inputs from the client into a JSON Object
-  let queryInputs = JSON.parse(req.query.data)
+  queryInputs = JSON.parse(req.query.data)
+
+  // turn dates into same format as reporting date column
+  if (req.query.startDate) {
+    startDate = new Date(startDate)
+  } else {
+    startDate = new Date("1900-01-01") // from the beginning
+  }
+  if (req.query.endDate) {
+    endDate = new Date(endDate)
+  } else {
+    endDate = new Date("2100-12-31") // to the end
+  }
+
+  let filteredData = data.filter(entry => {
+    let reportingDate = new Date(entry["reporting date"]).getTime()
+    if (startDate.getTime() <= reportingDate && reportingDate <= endDate.getTime()) {
+      return true
+    }
+  })
 
   for (let key in queryInputs) {
     // delete empty fields from the query
@@ -22,9 +42,7 @@ router.get('/search', async (req: any, res) => {
     }
   }
 
-  console.log("Test: ", queryInputs)
-
-  const filteredData = data.filter( entry => {
+  filteredData = filteredData.filter( entry => {
     for (let key in queryInputs) {
       if (entry[key] === undefined) {
         return false
@@ -36,8 +54,6 @@ router.get('/search', async (req: any, res) => {
     }
     return true;
   })
-
-  console.log("Data: ", filteredData.length)
 
   res.json({
     filteredData: filteredData
