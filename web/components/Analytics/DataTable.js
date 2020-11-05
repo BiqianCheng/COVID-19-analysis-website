@@ -13,6 +13,11 @@ import EditIcon from "@material-ui/icons/Edit";
 import { Button } from "@material-ui/core";
 import axios from "axios";
 import CustomDialog from "../../components/Admin/CustomDialog";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 // Using material-ui's table ui and populating it with our data
 
@@ -95,7 +100,17 @@ function createData(
   recovered,
   id
 ) {
-  return { index, reporting_date, country, location, age, gender, death, recovered, id };
+  return {
+    index,
+    reporting_date,
+    country,
+    location,
+    age,
+    gender,
+    death,
+    recovered,
+    id,
+  };
 }
 
 const DataTable = ({ data, action, setAction }) => {
@@ -104,6 +119,8 @@ const DataTable = ({ data, action, setAction }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [input, setInput] = useState({});
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [rowIndex, setRowIndex] = useState();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -122,6 +139,14 @@ const DataTable = ({ data, action, setAction }) => {
     setPopUpOpen(false);
   };
 
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+  };
+
   const handlePopUpChange = (evt) => {
     const value = evt.target.value;
     setInput({
@@ -130,9 +155,10 @@ const DataTable = ({ data, action, setAction }) => {
     });
   };
 
-  const handleDeletion = (row) => {
-    const index = row.index;
-    console.log("Deleteing by row index: ", row.index);
+  const handleDeletion = (i) => {
+    setDeleteOpen(false);
+    const index = i;
+    console.log("Deleteing by row index: ", i);
     axios
       .delete(`/admin/delete/${index}`)
       .then(() => {
@@ -203,8 +229,8 @@ const DataTable = ({ data, action, setAction }) => {
                   </StyledTableCell>
                 </React.Fragment>
               ) : (
-                  <></>
-                )}
+                <></>
+              )}
               {columns.map((column) => (
                 <StyledTableCell
                   key={column.id}
@@ -232,7 +258,8 @@ const DataTable = ({ data, action, setAction }) => {
                         <Button
                           size="small"
                           onClick={() => {
-                            handleDeletion(row);
+                            setRowIndex(row.index);
+                            handleDeleteOpen();
                           }}
                         >
                           <DeleteIcon />
@@ -247,8 +274,8 @@ const DataTable = ({ data, action, setAction }) => {
                         </Button>
                       </StyledTableCell>
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -282,6 +309,31 @@ const DataTable = ({ data, action, setAction }) => {
           handlePopUpClose={handlePopUpClose}
           handlePopUpSumbit={handlePopUpSumbit}
         />
+      </div>
+      <div>
+        <Dialog
+          open={deleteOpen}
+          onClose={handleDeleteClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Are you sure you want to delete this data?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              The selected data will be permanently deleted.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDeleteClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={()=>{handleDeletion(rowIndex)}} color="primary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </Paper>
   );
