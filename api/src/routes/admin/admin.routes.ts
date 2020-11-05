@@ -20,9 +20,10 @@ router.post('/insert', async (req: any, res) => {
   jsonData[lastIdKey] = Number(lastIdValue)+1
 
   // populate reporting date with date of insert
-  var today = new Date();
-  jsonData["reporting date"] = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear()
-
+  if (!jsonData["reporting date"]) {
+    var today = new Date();
+    jsonData["reporting date"] = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear()
+  }
   const parser = new Parser({
     fields: columns,
     header: false,
