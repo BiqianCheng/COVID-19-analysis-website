@@ -10,7 +10,8 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import DataTable from "../components/Analytics/DataTable";
 import LocationsChart from "../components/Analytics/LocationsChart";
-import AgeChart from '../components/Analytics/AgeChart';
+import AgeChart from "../components/Analytics/AgeChart";
+import RDRatioChart from "../components/Analytics/RDRatioChart";
 import { CircularProgress } from "@material-ui/core";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -198,9 +199,7 @@ export default function Home() {
 
               {/* pick start date */}
               <Grid item xs={1}>
-                <Typography variant="h6">
-                  Start date:
-                </Typography>
+                <Typography variant="h6">Start date:</Typography>
               </Grid>
               <Grid item xs={2}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -219,9 +218,7 @@ export default function Home() {
               </Grid>
               {/* pick end date */}
               <Grid item xs={1}>
-                <Typography variant="h6">
-                  End date:
-                </Typography>
+                <Typography variant="h6">End date:</Typography>
               </Grid>
               <Grid item xs={2}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -308,6 +305,9 @@ export default function Home() {
               <div className={styles.charts}>
                 <LocationsChart data={data} />
                 <AgeChart data={data} />
+              </div>
+              <div className={styles.charts}>
+                <RDRatioChart data={data} />
               </div>
             </div>
           )}
