@@ -23,8 +23,8 @@ export default function Analytics() {
     axios.get(`/analytics/search/`, {
       params: {
         data: testInputs,
-        startDate: new Date('2020-02-02'),
-        endDate: new Date('2020-03-30')
+        startDate: new Date('2020-01-02'),
+        endDate: new Date('2020-05-30')
       }
     })
       .then(({ data }) => {
