@@ -76,6 +76,12 @@ const columns = [
     minWidth: 170,
     align: "right",
   },
+  {
+    id: "recovered",
+    label: "Recovered",
+    minWidth: 170,
+    align: "right",
+  },
 ];
 
 function createData(
@@ -86,9 +92,10 @@ function createData(
   age,
   gender,
   death,
+  recovered,
   id
 ) {
-  return { index, reporting_date, country, location, age, gender, death, id };
+  return { index, reporting_date, country, location, age, gender, death, recovered, id };
 }
 
 const DataTable = ({ data, action, setAction }) => {
@@ -178,6 +185,7 @@ const DataTable = ({ data, action, setAction }) => {
       point.age,
       point.gender,
       Number(point.death) ? "Yes" : "No",
+      Number(point.recovered) ? "Yes" : "No",
       point.id
     );
   });
