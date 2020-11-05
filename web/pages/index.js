@@ -53,9 +53,8 @@ const countries = [
   "Vietnam",
 ];
 const sex = ["male", "female", "Other"];
-const confirmed = ["Yes","No"];
-const recovered = ["Yes","No"];
-const death = ["Yes","No"];
+const recovered = ["Yes", "No"];
+const death = ["Yes", "No"];
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -63,7 +62,6 @@ export default function Home() {
     country: countries[0],
     age: 0,
     gender: sex[0],
-    confirmed: confirmed[0],
     recovered: recovered[0],
     death: death[0],
   });
@@ -71,7 +69,6 @@ export default function Home() {
     country: "",
     age: "",
     gender: "",
-    confirmed: "",
     recovered: "",
     death: "",
   });
@@ -99,10 +96,20 @@ export default function Home() {
       });
   };
 
-  const handleValueChange = (key, v) => {
-    let newValue = value;
-    newValue[key] = v;
-    setValue(newValue);
+  const handleValueChange = (key, v, reason) => {
+
+    if (reason == "clear") {
+      setValue({
+        ...value,
+        [key]: null
+      });
+    } else {
+      setValue({
+        ...value,
+        [key]: v
+      });
+    }
+
   };
 
   const handleInputChange = (key, v) => {
@@ -151,6 +158,7 @@ export default function Home() {
               <Grid item xs={2}>
                 <TextField
                   onChange={(e) => handleValueChange("age", e.target.value)}
+                  defaultValue={value.age}
                   label="Age"
                   variant="outlined"
                 />
@@ -194,30 +202,6 @@ export default function Home() {
                     <TextField
                       {...params}
                       label="recovered"
-                      variant="outlined"
-                    />
-                  )}
-                  blurOnSelect
-                />
-              </Grid>
-
-              {/* confirmed Autocompete */}
-              <Grid item xs={4}>
-                <Autocomplete
-                  value={value.confirmed}
-                  onChange={(event, newValue) => {
-                    handleValueChange("confirmed", newValue);
-                  }}
-                  // inputValue={inputValue.country}
-                  // onInputChange={(event, newInputValue) => {
-                  //   handleInputChange("country", newInputValue);
-                  // }}
-                  options={confirmed}
-                  // style={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="confirmed"
                       variant="outlined"
                     />
                   )}
