@@ -10,7 +10,8 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import DataTable from "../components/Analytics/DataTable";
 import LocationsChart from "../components/Analytics/LocationsChart";
-import AgeChart from '../components/Analytics/AgeChart';
+import AgeChart from "../components/Analytics/AgeChart";
+import RDRatioChart from "../components/Analytics/RDRatioChart";
 import { CircularProgress } from "@material-ui/core";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -19,7 +20,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 
 const countries = [
   "Afghanistan",
@@ -84,6 +84,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
   const handleSubmit = () => {
     setLoading(true);
     if (data) {
@@ -196,46 +197,42 @@ export default function Home() {
               </Grid>
 
               {/* pick start date */}
-              <Grid item xs={1}>
-                <Typography variant="h6">
-                  Start date:
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Enter start date"
-                    format="MM/dd/yyyy"
-                    value={startDate}
-                    onChange={setStartDate}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
+              <Grid item xs={3}>
+                <div className={styles.date_picker}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      margin="normal"
+                      id="date-picker-dialog"
+                      label="Enter start date"
+                      format="MM/dd/yyyy"
+                      value={startDate}
+                      onChange={setStartDate}
+                      inputVariant="outlined"
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
               </Grid>
               {/* pick end date */}
-              <Grid item xs={1}>
-                <Typography variant="h6">
-                  End date:
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Enter end date"
-                    format="MM/dd/yyyy"
-                    value={endDate}
-                    onChange={setEndDate}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
+              <Grid item xs={3}>
+                <div className={styles.date_picker}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      margin="normal"
+                      id="date-picker-dialog"
+                      label="Enter end date"
+                      format="MM/dd/yyyy"
+                      value={endDate}
+                      onChange={setEndDate}
+                      inputVariant="outlined"
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
               </Grid>
               {/* Recovered input*/}
               <Grid item xs={3}>
@@ -307,6 +304,9 @@ export default function Home() {
               <div className={styles.charts}>
                 <LocationsChart data={data} />
                 <AgeChart data={data} />
+              </div>
+              <div className={styles.charts}>
+                <RDRatioChart data={data} />
               </div>
             </div>
           )}

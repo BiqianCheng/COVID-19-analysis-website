@@ -18,6 +18,7 @@ export default function Analytics() {
     country: "",
     location: "",
     age: "",
+    "reporting date": null,
     gender: "",
     recovered: "",
     death: "",
@@ -55,6 +56,7 @@ export default function Analytics() {
       country: "",
       location: "",
       age: "",
+      "reporting date": null,
       gender: "",
       recovered: "",
       death: "",
@@ -92,7 +94,8 @@ export default function Analytics() {
   };
 
   const handleBackup = () => {
-    axios.get(`/admin/backup/`)
+    axios
+      .get(`/admin/backup/`)
       .then(({ data }) => {
         console.log("Succesfully created backup: ", data.fileName);
         setAction("error");
@@ -100,11 +103,11 @@ export default function Analytics() {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const handleImport = () => {
-    setImportDialogOpen(true)
-  }
+    setImportDialogOpen(true);
+  };
 
   return (
     <>
@@ -132,6 +135,8 @@ export default function Analytics() {
         />
 
         <CustomDialog
+          title="Add New Data"
+          contentText="Insert your data below:"
           open={popUpOpen}
           input={input}
           handlePopUpClose={handlePopUpClose}

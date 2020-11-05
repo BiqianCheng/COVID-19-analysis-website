@@ -36,18 +36,22 @@ router.get('/search', async (req: any, res) => {
     } 
     // Convert Yes/No into boolean values
     if (queryInputs[key] == "Yes") {
-      queryInputs[key] = true
+      queryInputs[key] = 1
     } else if (queryInputs[key] == "No") {
-      queryInputs[key] = false
+      queryInputs[key] = 0
     }
   }
 
+  // If the data is not equal to any of the filters then discard.
+  // Else if it passes each filter then keep
   filteredData = filteredData.filter( entry => {
     for (let key in queryInputs) {
       if (entry[key] === undefined) {
         return false
       } else if (typeof entry[key] != "string" || typeof queryInputs[key] != "string") {
-        return entry[key] == queryInputs[key]
+        if (entry[key] != queryInputs[key]) {
+          return false
+        }
       } else if (entry[key].toLowerCase() != queryInputs[key].toLowerCase()) {
         return false
       }

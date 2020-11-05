@@ -303,6 +303,8 @@ const DataTable = ({ data, action, setAction }) => {
       />
       <div>
         <CustomDialog
+          title="Edit Data"
+          contentText="Modifiy your dataset below:"
           input={input}
           open={popUpOpen}
           handlePopUpChange={handlePopUpChange}
