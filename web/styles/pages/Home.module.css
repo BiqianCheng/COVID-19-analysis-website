@@ -58,3 +58,7 @@
   justify-content: center;
 }
 
+.date_picker {
+  transform: translateY(-16px);
+}
+
