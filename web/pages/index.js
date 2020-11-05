@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import DataTable from "../components/Analytics/DataTable";
 import LocationsChart from "../components/Analytics/LocationsChart";
+import AgeChart from '../components/Analytics/AgeChart';
 import { CircularProgress } from "@material-ui/core";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
