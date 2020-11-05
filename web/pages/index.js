@@ -71,8 +71,6 @@ export default function Home() {
     country: countries[0],
     age: 0,
     gender: sex[0],
-    startDate: null,
-    endDate: null,
     recovered: recovered[0],
     death: death[0],
   });
@@ -80,14 +78,12 @@ export default function Home() {
     country: "",
     age: "",
     gender: "",
-    startDate: "",
-    endDate: "",
     recovered: "",
     death: "",
   });
   const [loading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState(Date.now);
-  const [endDate, setEndDate] = useState(Date.now + 1);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const handleSubmit = () => {
     setLoading(true);
     if (data) {
@@ -212,8 +208,8 @@ export default function Home() {
                     id="date-picker-dialog"
                     label="Enter start date"
                     format="MM/dd/yyyy"
-                    value={value.startDate}
-                    onChange={handleValueChange}
+                    value={startDate}
+                    onChange={setStartDate}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -233,8 +229,8 @@ export default function Home() {
                     id="date-picker-dialog"
                     label="Enter end date"
                     format="MM/dd/yyyy"
-                    value={value.endDate}
-                    onChange={handleValueChange}
+                    value={endDate}
+                    onChange={setEndDate}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
