@@ -11,6 +11,15 @@ import { Button } from "@material-ui/core";
 import DataTable from "../components/Analytics/DataTable";
 import LocationsChart from "../components/Analytics/LocationsChart";
 import { CircularProgress } from "@material-ui/core";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 
 const countries = [
   "Afghanistan",
@@ -62,6 +71,8 @@ export default function Home() {
     country: countries[0],
     age: 0,
     gender: sex[0],
+    startDate: null,
+    endDate: null,
     recovered: recovered[0],
     death: death[0],
   });
@@ -69,11 +80,14 @@ export default function Home() {
     country: "",
     age: "",
     gender: "",
+    startDate: "",
+    endDate: "",
     recovered: "",
     death: "",
   });
   const [loading, setLoading] = useState(false);
-
+  const [startDate, setStartDate] = useState(Date.now);
+  const [endDate, setEndDate] = useState(Date.now + 1);
   const handleSubmit = () => {
     setLoading(true);
     if (data) {
@@ -83,6 +97,8 @@ export default function Home() {
       .get(`/analytics/search/`, {
         params: {
           data: value,
+          startDate: startDate,
+          endDate: endDate,
         },
       })
       .then(({ data }) => {
@@ -97,19 +113,17 @@ export default function Home() {
   };
 
   const handleValueChange = (key, v, reason) => {
-
     if (reason == "clear") {
       setValue({
         ...value,
-        [key]: null
+        [key]: null,
       });
     } else {
       setValue({
         ...value,
-        [key]: v
+        [key]: v,
       });
     }
-
   };
 
   const handleInputChange = (key, v) => {
@@ -185,8 +199,50 @@ export default function Home() {
                 />
               </Grid>
 
+              {/* pick start date */}
+              <Grid item xs={1}>
+                <Typography variant="h6">
+                  Start date:
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Enter start date"
+                    format="MM/dd/yyyy"
+                    value={value.startDate}
+                    onChange={handleValueChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              {/* pick end date */}
+              <Grid item xs={1}>
+                <Typography variant="h6">
+                  End date:
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Enter end date"
+                    format="MM/dd/yyyy"
+                    value={value.endDate}
+                    onChange={handleValueChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
               {/* Recovered input*/}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Autocomplete
                   value={value.recovered}
                   onChange={(event, newValue) => {
@@ -210,7 +266,7 @@ export default function Home() {
               </Grid>
 
               {/* death Autocompete */}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Autocomplete
                   value={value.death}
                   onChange={(event, newValue) => {
