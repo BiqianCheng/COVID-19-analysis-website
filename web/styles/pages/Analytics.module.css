@@ -18,6 +18,10 @@
 .charts {
   display: flex;
   justify-content: center;
+  max-width: 1000px;
+  width: 1000px;
+  max-height: 500px;
+  position: relative;
 }
 
 .header {

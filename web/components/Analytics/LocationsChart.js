@@ -55,7 +55,12 @@ const LocationsChart = ({ data }) => {
   }
 
   return (
-    <Bar data={() => getChartData()} options={chartOptions} width={600} height={400} />
+    <div>
+      <div style={{ display: "block", fontWeight: "bold", textAlign: "center", marginBottom: "10px" }}>
+        Covid Cases by Location
+      </div>
+      <Bar data={() => getChartData()} options={chartOptions} width={600} height={400} />
+    </div>
   )
 }
 

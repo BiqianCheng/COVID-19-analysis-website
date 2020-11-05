@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { CircularProgress } from '@material-ui/core'
 import LocationsChart from '../../components/Analytics/LocationsChart';
+import AgeChart from '../../components/Analytics/AgeChart';
 import DataTable from '../../components/Analytics/DataTable';
 
 export default function Analytics() {
@@ -23,7 +24,7 @@ export default function Analytics() {
       params: {
         data: testInputs,
         startDate: new Date('2020-02-02'),
-        endDate: new Date('2020-05-28')
+        endDate: new Date('2020-03-30')
       }
     })
       .then(({ data }) => {
@@ -121,6 +122,7 @@ export default function Analytics() {
             </div>
             <div className={styles.charts}>
               <LocationsChart data={data} />
+              <AgeChart data={data} />
             </div>
           </div>
         }
