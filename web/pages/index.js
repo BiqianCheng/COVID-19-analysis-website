@@ -306,6 +306,7 @@ export default function Home() {
               </div>
               <div className={styles.charts}>
                 <LocationsChart data={data} />
+                <AgeChart data={data} />
               </div>
             </div>
           )}
