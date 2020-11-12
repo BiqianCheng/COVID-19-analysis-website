@@ -24,6 +24,7 @@ export default function Analytics() {
         setColumns(data.columns);
         console.log("Dataset received! ", data.dataset.length)
         console.log("Analytics received! ", data.analytics)
+        console.log("Analytics received! ", data.locations)
       })
       .catch((error) => {
         console.log(error);

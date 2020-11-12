@@ -97,7 +97,7 @@ router.get('/allData', async (req: any, res) => {
   res.json({
     columns: columns,
     dataset: data,
-    analytics: analytics
+    analytics: analytics,
   })
 })
 

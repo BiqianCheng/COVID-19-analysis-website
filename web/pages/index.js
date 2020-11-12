@@ -20,47 +20,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Typography from "@material-ui/core/Typography";
+import { locationOptions, countryOptions } from '../utils/dataUtils'
 
-const countries = [
-  "Afghanistan",
-  "Algeria",
-  "Australia",
-  "Austria",
-  "Bahrain",
-  "Belgium",
-  "Cambodia",
-  "Canada",
-  "China",
-  "Croatia",
-  "Egypt",
-  "Finland",
-  "France",
-  "Germany",
-  "Hong Kong",
-  "India",
-  "Iran",
-  "Israel",
-  "Italy",
-  "Japan",
-  "Kuwait",
-  "Lebanon",
-  "Malaysia",
-  "Nepal",
-  "Phillipines",
-  "Russia",
-  "Singapore",
-  "South Korea",
-  "Spain",
-  "Sri Lanka",
-  "Sweden",
-  "Switzerland",
-  "Taiwan",
-  "Thailand",
-  "UAE",
-  "UK",
-  "USA",
-  "Vietnam",
-];
 const sex = ["male", "female", "Other"];
 const recovered = ["Yes", "No"];
 const death = ["Yes", "No"];
@@ -68,8 +29,8 @@ const death = ["Yes", "No"];
 export default function Home() {
   const [data, setData] = useState(null);
   const [value, setValue] = useState({
-    country: countries[0],
-    location: "",
+    country: countryOptions[0],
+    location: locationOptions[0],
     age: "",
     gender: sex[0],
     recovered: recovered[0],
@@ -158,7 +119,7 @@ export default function Home() {
                   // onInputChange={(event, newInputValue) => {
                   //   handleInputChange("country", newInputValue);
                   // }}
-                  options={countries}
+                  options={countryOptions}
                   // style={{ width: 300 }}
                   renderInput={(params) => (
                     <TextField {...params} label="Country" variant="outlined" />
@@ -169,14 +130,18 @@ export default function Home() {
 
               {/* Location selection */}
               <Grid item xs={5}>
-                <TextField
-                  fullWidth
-                  onChange={(e) =>
-                    handleValueChange("location", e.target.value)
+                <Autocomplete
+                  value={value.location}
+                  onChange={(e, newValue) => {
+                    console.log("location", newValue)
+                    return handleValueChange("location", newValue)
                   }
-                  defaultValue={value.location}
-                  label="Location"
-                  variant="outlined"
+                  }
+                  options={locationOptions}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Location" variant="outlined" />
+                  )}
+                  blurOnSelect
                 />
               </Grid>
 
@@ -231,7 +196,7 @@ export default function Home() {
                   </MuiPickersUtilsProvider>
                 </div>
               </Grid>
-              
+
               {/* Gender autocomplete */}
               <Grid item xs={4}>
                 <Autocomplete
