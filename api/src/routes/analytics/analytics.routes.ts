@@ -3,6 +3,14 @@ import parseCSV from '../../utils/csvUtils'
 
 const router = express.Router()
 
+router.get('/allData', async (req: any, res) => {
+  const {columns, data} = parseCSV()
+  res.json({
+    columns: columns,
+    dataset: data
+  })
+})
+
 router.get('/search', async (req: any, res) => {
   const {columns, data} = parseCSV()
   let {queryInputs, startDate, endDate} = req.query
