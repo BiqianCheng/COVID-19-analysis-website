@@ -69,13 +69,15 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [value, setValue] = useState({
     country: countries[0],
-    age: 0,
+    location: "",
+    age: "",
     gender: sex[0],
     recovered: recovered[0],
     death: death[0],
   });
   const [inputValue, setInputValue] = useState({
     country: "",
+    location: "",
     age: "",
     gender: "",
     recovered: "",
@@ -134,9 +136,9 @@ export default function Home() {
       <Navbar />
       <div className={styles.pageContainer}>
         <div className={styles.header}>
-          <div className={styles.title}>BBCDS Covid-19 Analytics</div>
+          <div className={styles.title}>BBCDS COVID-19 Analytics</div>
           <div className={styles.description}>
-            Helping you understand the current state of Covid-19
+            Helping you understand the current state of COVID-19
           </div>
           <Container maxWidth="lg">
             <Grid
@@ -165,6 +167,19 @@ export default function Home() {
                 />
               </Grid>
 
+              {/* Location selection */}
+              <Grid item xs={5}>
+                <TextField
+                  fullWidth
+                  onChange={(e) =>
+                    handleValueChange("location", e.target.value)
+                  }
+                  defaultValue={value.location}
+                  label="Location"
+                  variant="outlined"
+                />
+              </Grid>
+
               {/* Age selection */}
               <Grid item xs={2}>
                 <TextField
@@ -175,8 +190,50 @@ export default function Home() {
                 />
               </Grid>
 
+              {/* pick start date */}
+              <Grid item xs={6}>
+                <div className={styles.date_picker}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      fullWidth
+                      margin="normal"
+                      id="date-picker-dialog"
+                      label="Enter start date"
+                      format="MM/dd/yyyy"
+                      value={startDate}
+                      onChange={setStartDate}
+                      inputVariant="outlined"
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
+              </Grid>
+
+              {/* pick end date */}
+              <Grid item xs={6}>
+                <div className={styles.date_picker}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      fullWidth
+                      margin="normal"
+                      id="date-picker-dialog"
+                      label="Enter end date"
+                      format="MM/dd/yyyy"
+                      value={endDate}
+                      onChange={setEndDate}
+                      inputVariant="outlined"
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
+              </Grid>
+              
               {/* Gender autocomplete */}
-              <Grid item xs={5}>
+              <Grid item xs={4}>
                 <Autocomplete
                   value={value.gender}
                   onChange={(event, newValue) => {
@@ -196,46 +253,8 @@ export default function Home() {
                 />
               </Grid>
 
-              {/* pick start date */}
-              <Grid item xs={3}>
-                <div className={styles.date_picker}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Enter start date"
-                      format="MM/dd/yyyy"
-                      value={startDate}
-                      onChange={setStartDate}
-                      inputVariant="outlined"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
-              </Grid>
-              {/* pick end date */}
-              <Grid item xs={3}>
-                <div className={styles.date_picker}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Enter end date"
-                      format="MM/dd/yyyy"
-                      value={endDate}
-                      onChange={setEndDate}
-                      inputVariant="outlined"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
-              </Grid>
               {/* Recovered input*/}
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Autocomplete
                   value={value.recovered}
                   onChange={(event, newValue) => {
@@ -259,7 +278,7 @@ export default function Home() {
               </Grid>
 
               {/* death Autocompete */}
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Autocomplete
                   value={value.death}
                   onChange={(event, newValue) => {
