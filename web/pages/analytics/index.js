@@ -49,125 +49,161 @@ export default function Analytics() {
           <div className={styles.title}>Analytics</div>
           <div className={styles.description}>Overall of COVID-19 dataset</div>
         </div>
-        <Container maxWidth="lg">
-          <Grid
-            container
-            className={styles.gridContainer}
-            justify="center"
-            spacing={5}
-          >
-            <Grid item xs={6}>
-              <Paper
-                style={{ padding: "2.5rem 2rem 0rem 2rem", minHeight: "10rem" }}
-              >
-                <Grid container direction="row" justify="center">
-                  <Grid className={styles.header} item xs={4}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Cases
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.cases}
-                    </div>
+        {analytics ? (
+          <Container maxWidth="lg">
+            <Grid
+              container
+              className={styles.gridContainer}
+              justify="center"
+              spacing={5}
+            >
+              <Grid item xs={6}>
+                <Paper
+                  style={{
+                    padding: "2.5rem 2rem 0rem 2rem",
+                    minHeight: "10rem",
+                  }}
+                >
+                  <Grid container direction="row" justify="center">
+                    <Grid className={styles.header} item xs={4}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Cases
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.cases}
+                      </div>
+                    </Grid>
+                    <Grid className={styles.header} item xs={4}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Deaths
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.deaths}
+                      </div>
+                    </Grid>
+                    <Grid className={styles.header} item xs={4}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Recoveries
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.recoveries}
+                      </div>
+                    </Grid>
                   </Grid>
-                  <Grid className={styles.header} item xs={4}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Deaths
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.deaths}
-                    </div>
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <RDRatioChart data={data} />
+              </Grid>
+              <Grid item xs={6}>
+                <LocationsChart data={data} />
+              </Grid>
+              <Grid item xs={6}>
+                <Paper
+                  style={{
+                    padding: "2.5rem 2rem 0rem 2rem",
+                    minHeight: "10rem",
+                  }}
+                >
+                  <Grid container direction="row" justify="center">
+                    <Grid className={styles.header} item xs={6}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Most affected Country
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.mostCountry}
+                      </div>
+                    </Grid>
+                    <Grid className={styles.header} item xs={6}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Most affected Location
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.mostLocation}
+                      </div>
+                    </Grid>
                   </Grid>
-                  <Grid className={styles.header} item xs={4}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Recoveries
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.recoveries}
-                    </div>
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper
+                  style={{
+                    padding: "2.5rem 2rem 0rem 2rem",
+                    minHeight: "10rem",
+                  }}
+                >
+                  <Grid container direction="row" justify="center">
+                    <Grid className={styles.header} item xs={6}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Most affected Age Group
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.mostAgeGroup}
+                      </div>
+                    </Grid>
+                    <Grid className={styles.header} item xs={6}>
+                      <div
+                        className={styles.description}
+                        style={{ margin: "0" }}
+                      >
+                        Most affected Gender
+                      </div>
+                      <div
+                        className={styles.title}
+                        style={{ fontSize: "2rem", margin: "0" }}
+                      >
+                        {analytics.mostGender}
+                      </div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Paper>
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <AgeChart data={data} />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <RDRatioChart data={data} />
-            </Grid>
-            <Grid item xs={6}>
-              <LocationsChart data={data} />
-            </Grid>
-            <Grid item xs={6}>
-              <Paper
-                style={{ padding: "2.5rem 2rem 0rem 2rem", minHeight: "10rem" }}
-              >
-                <Grid container direction="row" justify="center">
-                  <Grid className={styles.header} item xs={6}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Most affected Country
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.mostCountry}
-                    </div>
-                  </Grid>
-                  <Grid className={styles.header} item xs={6}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Most affected Location
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.mostLocation}
-                    </div>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper
-                style={{ padding: "2.5rem 2rem 0rem 2rem", minHeight: "10rem" }}
-              >
-                <Grid container direction="row" justify="center">
-                  <Grid className={styles.header} item xs={6}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Most affected Age Group
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.mostAgeGroup}
-                    </div>
-                  </Grid>
-                  <Grid className={styles.header} item xs={6}>
-                    <div className={styles.description} style={{ margin: "0" }}>
-                      Most affected Gender
-                    </div>
-                    <div
-                      className={styles.title}
-                      style={{ fontSize: "2rem", margin: "0" }}
-                    >
-                      {analytics.mostGender}
-                    </div>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <AgeChart data={data} />
-            </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        ) : (
+          <div className={styles.loading}>
+            <CircularProgress style={{ color: "black" }} size={16} />
+          </div>
+        )}
       </div>
     </>
   );
