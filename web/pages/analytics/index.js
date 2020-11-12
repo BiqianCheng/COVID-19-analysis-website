@@ -11,6 +11,7 @@ import DataTable from '../../components/Analytics/DataTable';
 export default function Analytics() {
   const [columns, setColumns] = useState(null)
   const [data, setData] = useState(null)
+  const [analytics, setAnalytics] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -19,8 +20,10 @@ export default function Analytics() {
       .get(`/analytics/allData/`)
       .then(({ data }) => {
         setData(data.dataset);
+        setAnalytics(data.analytics)
         setColumns(data.columns);
-        console.log("Datset received! ", data.dataset.length)
+        console.log("Dataset received! ", data.dataset.length)
+        console.log("Analytics received! ", data.analytics)
       })
       .catch((error) => {
         console.log(error);

@@ -5,9 +5,99 @@ const router = express.Router()
 
 router.get('/allData', async (req: any, res) => {
   const {columns, data} = parseCSV()
+
+  let analytics = {
+    cases: data.length,
+    deaths: 0,
+    recoveries: 0,
+    mostCountry: "",
+    mostLocation: "",
+    mostAgeGroup: "",
+    mostGender: ""
+  }
+
+  let countries = {}
+  let locations = {}
+  let genders = {}
+  let ageGroups = {
+    "0-17": 0,
+    "18-29": 0,
+    "30-44": 0,
+    "45-59": 0,
+    "60+": 0,
+  }
+
+  data.map((entry) => {
+    entry.death == 1 ? analytics.deaths++ : null
+    entry.recovered == 1 ? analytics.recoveries++ : null
+
+    if (countries[entry.country]) {
+      countries[entry.country] = ++countries[entry.country]
+    } else {
+      countries[entry.country] = 1
+    }
+
+    if (locations[entry.location]) {
+      locations[entry.location] = ++locations[entry.location]
+    } else {
+      locations[entry.location] = 1
+    }
+
+    if (genders[entry.gender]) {
+      genders[entry.gender] = ++genders[entry.gender]
+    } else {
+      genders[entry.gender] = 1
+    }
+
+    if (entry.age <= 17) {
+      ageGroups["0-17"] = ageGroups["0-17"] + 1
+    } else if (entry.age <= 29) {
+      ageGroups["18-29"] = ageGroups["18-29"] + 1
+    } else if (entry.age <= 44) {
+      ageGroups["30-44"] = ageGroups["30-44"] + 1
+    } else if (entry.age <= 59) {
+      ageGroups["45-59"] = ageGroups["45-59"] + 1
+    } else if (entry.age >= 60) {
+      ageGroups["60+"] = ageGroups["60+"] + 1
+    }
+  })
+
+  let maxVal: any = 0
+  Object.entries(countries).map(([key, value]) => {
+    if ( maxVal < value) {
+      maxVal = value
+      analytics.mostCountry = key
+    }
+  })
+
+  maxVal = 0
+  Object.entries(locations).map(([key, value]) => {
+    if ( maxVal < value) {
+      maxVal = value
+      analytics.mostLocation = key
+    }
+  })
+
+  maxVal = 0
+  Object.entries(genders).map(([key, value]) => {
+    if ( maxVal < value) {
+      maxVal = value
+      analytics.mostGender = key
+    }
+  })
+
+  maxVal = 0
+  Object.entries(ageGroups).map(([key, value]) => {
+    if ( maxVal < value) {
+      maxVal = value
+      analytics.mostAgeGroup = key
+    }
+  })
+
   res.json({
     columns: columns,
-    dataset: data
+    dataset: data,
+    analytics: analytics
   })
 })
 
