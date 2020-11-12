@@ -18,12 +18,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Collapse from '@material-ui/core/Collapse';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Collapse from "@material-ui/core/Collapse";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
 // Using material-ui's table ui and populating it with our data
 
@@ -117,7 +117,7 @@ function createData(
     death,
     recovered,
     id,
-    summary
+    summary,
   };
 }
 
@@ -231,67 +231,66 @@ const DataTable = ({ data, action, setAction }) => {
     // const classes = useRowStyles();
     return (
       <>
-      <StyledTableRow
-        hover
-        role="checkbox"
-        tabIndex={-1}
-        key={row.code}
-      >
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        {action ? (
+        <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code}>
           <StyledTableCell>
-            <Button
+            <IconButton
+              aria-label="expand row"
               size="small"
-              onClick={() => {
-                setRowIndex(row.index);
-                handleDeleteOpen();
-              }}
+              onClick={() => setOpen(!open)}
             >
-              <DeleteIcon />
-            </Button>
-            <Button
-              onClick={() => {
-                handleEdit(row);
-              }}
-              size="small"
-            >
-              <EditIcon />
-            </Button>
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
           </StyledTableCell>
-        ) : (
-          <></>
-        )}
-        {columns.map((column) => {
-          const value = row[column.id];
-          return (
-            <StyledTableCell key={column.id} align={column.align}>
-              {column.format && typeof value === "number"
-                ? column.format(value)
-                : value}
+          {action ? (
+            <StyledTableCell>
+              <Button
+                size="small"
+                onClick={() => {
+                  setRowIndex(row.index);
+                  handleDeleteOpen();
+                }}
+              >
+                <DeleteIcon />
+              </Button>
+              <Button
+                onClick={() => {
+                  handleEdit(row);
+                }}
+                size="small"
+              >
+                <EditIcon />
+              </Button>
             </StyledTableCell>
-          );
-        })}
-      </StyledTableRow>
+          ) : (
+            <></>
+          )}
+          {columns.map((column) => {
+            const value = row[column.id];
+            return (
+              <StyledTableCell key={column.id} align={column.align}>
+                {column.format && typeof value === "number"
+                  ? column.format(value)
+                  : value}
+              </StyledTableCell>
+            );
+          })}
+        </StyledTableRow>
 
-      <TableRow>
-      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <Box margin={1}>
-            <Typography variant="h6" gutterBottom component="div">
-              Summary
-            </Typography>
-            {row.summary}
-          </Box>
-        </Collapse>
-      </TableCell>
-    </TableRow>
-    </>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box margin={1}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Summary
+                </Typography>
+                {row.summary}
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </>
     );
-  };
+  }
 
   return (
     <Paper className={classes.root}>
@@ -299,6 +298,7 @@ const DataTable = ({ data, action, setAction }) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <StyledTableCell>Summary</StyledTableCell>
               {action ? (
                 <React.Fragment>
                   <StyledTableCell style={{ minWidth: "10rem" }}>
@@ -319,13 +319,11 @@ const DataTable = ({ data, action, setAction }) => {
               ))}
             </TableRow>
           </TableHead>
-        <TableBody>
+          <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
-                return (
-                  <Row key={row.name} row={row} />
-                );
+                return <Row key={row.name} row={row} />;
               })}
           </TableBody>
         </Table>
@@ -369,7 +367,13 @@ const DataTable = ({ data, action, setAction }) => {
             <Button onClick={handleDeleteClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={()=>{handleDeletion(rowIndex)}} color="primary" autoFocus>
+            <Button
+              onClick={() => {
+                handleDeletion(rowIndex);
+              }}
+              color="primary"
+              autoFocus
+            >
               Yes
             </Button>
           </DialogActions>
