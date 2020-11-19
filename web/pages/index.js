@@ -101,6 +101,7 @@ export default function Home() {
           <div className={styles.description}>
             Helping you understand the current state of COVID-19
           </div>
+          
           <Container maxWidth="lg">
             <Grid
               container
