@@ -131,6 +131,16 @@ const datasets = [
         name: "date_confirmation",
         colNum: 12,
         link: "reporting date"
+      },
+      {
+        name: "outcome",
+        colNum: 23,
+        link: "death"
+      },
+      {
+        name: "outcome",
+        colNum: 23,
+        link: "recovered"
       }
     ]
   }
@@ -201,8 +211,28 @@ export const mergeCSVs = () => {
               // change from 1.20.2020 to 1/20/2020 date format
               // make sure to check if date is not undefined
               date = date ? date.split('.').join('/') : date
-              modifiedEntry[mColumn.colNum] = date
             }
+            modifiedEntry[mColumn.colNum] = date
+          } else if (mColumn.name == "recovered") {
+            let recovered = entry[foundColumn[0].colNum]
+            if (dataset.name == "openLineList") {
+              if (recovered && (recovered == "stable" || recovered == "discharge" || recovered == "discharged" )) {
+                recovered = 1
+              } else {
+                recovered = 0
+              } 
+            }
+            modifiedEntry[mColumn.colNum] = recovered
+          } else if (mColumn.name == "death") {
+            let death = entry[foundColumn[0].colNum]
+            if (dataset.name == "openLineList") {
+              if (death && (death == "death" || death == "died" )) {
+                death = 1
+              } else {
+                death = 0
+              } 
+            }
+            modifiedEntry[mColumn.colNum] = death
           } else {
             modifiedEntry[mColumn.colNum] = entry[foundColumn[0].colNum]
           }
