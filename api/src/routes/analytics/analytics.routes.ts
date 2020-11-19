@@ -28,6 +28,8 @@ router.get('/allData', async (req: any, res) => {
   }
 
   data.map((entry) => {
+    if (!entry.id) return // return if empty entry
+
     entry.death == 1 ? analytics.deaths++ : null
     entry.recovered == 1 ? analytics.recoveries++ : null
 
@@ -52,7 +54,9 @@ router.get('/allData', async (req: any, res) => {
       genders[gender] = 1
     }
 
-    if (entry.age <= 17 && entry.age > 0) {
+    if (entry.age <= 0) {
+      // skip
+    } else if (entry.age <= 17) {
       ageGroups["0-17"] = ageGroups["0-17"] + 1
     } else if (entry.age <= 29) {
       ageGroups["18-29"] = ageGroups["18-29"] + 1

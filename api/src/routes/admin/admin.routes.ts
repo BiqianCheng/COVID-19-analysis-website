@@ -119,7 +119,7 @@ router.delete('/delete/:index', async (req: any, res) => {
 // and named with a time stamp (yyyy-mm-dd-hh-mm) prefixed to it
 router.get('/backup', async (req: any, res) => {
   let today = new Date()
-  let newBackupFile = `./src/db/backups/${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}-${today.getHours()}-${today.getMinutes()}-${activeDataset.slice(17)}`
+  let newBackupFile = `./src/db/backups/${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}-${today.getHours()}-${today.getMinutes()}-${activeDataset.slice(9)}`
   fs.copyFile(activeDataset, newBackupFile, (err) => { 
     if(err) { return console.log(err); }
     console.log(`Backed up data into a new dataset located at: ${newBackupFile}`)

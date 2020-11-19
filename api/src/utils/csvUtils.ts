@@ -168,7 +168,7 @@ export const parseCSV = () => {
     )
   }
   return ({
-    columns: mergedDataset.columns, // array of column headers
+    columns: columnHeaders, // array of column headers
     csvArray: csvData, // csv row by row array
     data: dataArray // data json
   })
