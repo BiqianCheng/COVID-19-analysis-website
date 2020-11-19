@@ -31,7 +31,6 @@ export default function Analytics() {
         setColumns(data.columns);
         console.log("Dataset received! ", data.dataset.length);
         console.log("Analytics received! ", data.analytics);
-        console.log("Analytics received! ", data.locations);
       })
       .catch((error) => {
         console.log(error);
@@ -200,10 +199,10 @@ export default function Analytics() {
             </Grid>
           </Container>
         ) : (
-          <div className={styles.loading}>
-            <CircularProgress style={{ color: "black" }} size={16} />
-          </div>
-        )}
+            <div className={styles.loading}>
+              <CircularProgress style={{ color: "black" }} size={16} />
+            </div>
+          )}
       </div>
     </>
   );

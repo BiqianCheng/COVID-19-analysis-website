@@ -31,25 +31,28 @@ router.get('/allData', async (req: any, res) => {
     entry.death == 1 ? analytics.deaths++ : null
     entry.recovered == 1 ? analytics.recoveries++ : null
 
-    if (countries[entry.country]) {
-      countries[entry.country] = ++countries[entry.country]
+    let country = entry.country.toLowerCase()
+    if (countries[country]) {
+      countries[country] = ++countries[country]
     } else {
-      countries[entry.country] = 1
+      countries[country] = 1
     }
 
-    if (locations[entry.location]) {
-      locations[entry.location] = ++locations[entry.location]
+    let location = entry.location.toLowerCase()
+    if (locations[location] && location.length > 0) {
+      locations[location] = ++locations[location]
     } else {
-      locations[entry.location] = 1
+      locations[location] = 1
     }
 
-    if (genders[entry.gender]) {
-      genders[entry.gender] = ++genders[entry.gender]
+    let gender = entry.gender.toLowerCase()
+    if (genders[gender] && gender.length > 0 ) {
+      genders[gender] = ++genders[gender]
     } else {
-      genders[entry.gender] = 1
+      genders[gender] = 1
     }
 
-    if (entry.age <= 17) {
+    if (entry.age <= 17 && entry.age > 0) {
       ageGroups["0-17"] = ageGroups["0-17"] + 1
     } else if (entry.age <= 29) {
       ageGroups["18-29"] = ageGroups["18-29"] + 1
@@ -60,7 +63,9 @@ router.get('/allData', async (req: any, res) => {
     } else if (entry.age >= 60) {
       ageGroups["60+"] = ageGroups["60+"] + 1
     }
+    
   })
+  
 
   let maxVal: any = 0
   Object.entries(countries).map(([key, value]) => {

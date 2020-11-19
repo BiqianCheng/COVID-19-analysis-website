@@ -233,6 +233,14 @@ export const mergeCSVs = () => {
               } 
             }
             modifiedEntry[mColumn.colNum] = death
+          } else if (mColumn.name == "location") {
+            let location = entry[foundColumn[0].colNum]
+            // If China use the province column in openLineList instead of city. 
+            // ...To match up with the lineList dataset
+            if (dataset.name == "openLineList" && entry[5] == "China") {
+              location = entry[4]
+            }
+            modifiedEntry[mColumn.colNum] = location
           } else {
             modifiedEntry[mColumn.colNum] = entry[foundColumn[0].colNum]
           }
