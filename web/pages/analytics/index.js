@@ -1,6 +1,7 @@
 import styles from "../../styles/pages/Analytics.module.css";
 import Navbar from "../../components/Navbar/Navbar";
-import { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   CircularProgress,
@@ -12,8 +13,10 @@ import {
 import LocationsChart from "../../components/Analytics/LocationsChart";
 import AgeChart from "../../components/Analytics/AgeChart";
 import RDRatioChart from "../../components/Analytics/RDRatioChart";
+import { Context } from "../../utils/dataContext";
 
 export default function Analytics() {
+  const dataContext = useContext(Context);
   const [columns, setColumns] = useState(null);
   const [data, setData] = useState(null);
   const [analytics, setAnalytics] = useState(null);
@@ -21,23 +24,13 @@ export default function Analytics() {
 
   useEffect(() => {
     setLoading(true);
-    console.time('Retrieve whole dataset and analytics calculations');
-    axios
-      .get(`/analytics/allData/`)
-      .then(({ data }) => {
-        setData(data.dataset);
-        setAnalytics(data.analytics);
-        setColumns(data.columns);
-        console.log(`Dataset received. ${data.dataset.length} rows of data`);
-        console.log("Analytics received! ", data.analytics);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-        console.timeEnd('Retrieve whole dataset and analytics calculations')
-      });
+    if (dataContext) {
+      console.log(dataContext);
+      setData(dataContext.dataset);
+      setAnalytics(dataContext.analytics);
+      setColumns(dataContext.columns);
+      setLoading(false);
+    }
   }, []);
 
   return (
@@ -48,7 +41,7 @@ export default function Analytics() {
           <div className={styles.title}>Analytics</div>
           <div className={styles.description}>Overall of COVID-19 dataset</div>
         </div>
-        {analytics ? (
+        {loading ? (
           <Container maxWidth="lg">
             <Grid
               container
@@ -199,10 +192,10 @@ export default function Analytics() {
             </Grid>
           </Container>
         ) : (
-            <div className={styles.loading}>
-              <CircularProgress style={{ color: "black" }} size={16} />
-            </div>
-          )}
+          <div className={styles.loading}>
+            <CircularProgress style={{ color: "black" }} size={16} />
+          </div>
+        )}
       </div>
     </>
   );
