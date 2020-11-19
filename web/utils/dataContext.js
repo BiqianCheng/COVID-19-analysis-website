@@ -19,5 +19,5 @@ export default function dataContext(props) {
       });
   }, []);
 
-  return <Context.Provider value={data}>{props.children}</Context.Provider>;
+  return <Context.Provider value={{ data: data }}>{props.children}</Context.Provider>;
 }

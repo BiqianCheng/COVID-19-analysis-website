@@ -17,21 +17,19 @@ import { Context } from "../../utils/dataContext";
 
 export default function Analytics() {
   const dataContext = useContext(Context);
-  const [columns, setColumns] = useState(null);
-  const [data, setData] = useState(null);
-  const [analytics, setAnalytics] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null)
+  const [analytics, setAnalytics] = useState(null)
+  const [columns, setColumns] = useState(null)
 
   useEffect(() => {
-    setLoading(true);
-    if (dataContext) {
-      console.log(dataContext);
-      setData(dataContext.dataset);
-      setAnalytics(dataContext.analytics);
-      setColumns(dataContext.columns);
-      setLoading(false);
+    if (dataContext.data != null) {
+      setData(dataContext.data.dataset)
+      setAnalytics(dataContext.data.analytics)
+      setColumns(dataContext.data.columns)
+      setLoading(false)
     }
-  }, []);
+  }, [dataContext.data])
 
   return (
     <>
@@ -41,7 +39,7 @@ export default function Analytics() {
           <div className={styles.title}>Analytics</div>
           <div className={styles.description}>Overall of COVID-19 dataset</div>
         </div>
-        {loading ? (
+        {!loading ? (
           <Container maxWidth="lg">
             <Grid
               container
@@ -192,10 +190,10 @@ export default function Analytics() {
             </Grid>
           </Container>
         ) : (
-          <div className={styles.loading}>
-            <CircularProgress style={{ color: "black" }} size={16} />
-          </div>
-        )}
+            <div className={styles.loading}>
+              <CircularProgress style={{ color: "black" }} size={16} />
+            </div>
+          )}
       </div>
     </>
   );
