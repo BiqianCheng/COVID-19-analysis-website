@@ -1,6 +1,5 @@
 import styles from "../../styles/pages/Analytics.module.css";
 import Navbar from "../../components/Navbar/Navbar";
-import Button from "@material-ui/core/Button";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -12,7 +11,6 @@ import {
 } from "@material-ui/core";
 import LocationsChart from "../../components/Analytics/LocationsChart";
 import AgeChart from "../../components/Analytics/AgeChart";
-import DataTable from "../../components/Analytics/DataTable";
 import RDRatioChart from "../../components/Analytics/RDRatioChart";
 
 export default function Analytics() {
@@ -23,13 +21,14 @@ export default function Analytics() {
 
   useEffect(() => {
     setLoading(true);
+    console.time('Retrieve whole dataset and analytics calculations');
     axios
       .get(`/analytics/allData/`)
       .then(({ data }) => {
         setData(data.dataset);
         setAnalytics(data.analytics);
         setColumns(data.columns);
-        console.log("Dataset received! ", data.dataset.length);
+        console.log(`Dataset received. ${data.dataset.length} rows of data`);
         console.log("Analytics received! ", data.analytics);
       })
       .catch((error) => {
@@ -37,6 +36,7 @@ export default function Analytics() {
       })
       .finally(() => {
         setLoading(false);
+        console.timeEnd('Retrieve whole dataset and analytics calculations')
       });
   }, []);
 
