@@ -39,7 +39,7 @@ export default function Analytics() {
       <div className={styles.pageContainer}>
         <div className={styles.header}>
           <div className={styles.title}>Analytics</div>
-          <div className={styles.description}>Overall of COVID-19 dataset</div>
+          <div className={styles.description}>Overall analysis of COVID-19 dataset</div>
         </div>
         {loading ? (
           <Container maxWidth="lg">
