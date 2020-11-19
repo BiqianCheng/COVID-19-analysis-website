@@ -5,19 +5,60 @@ export const Context = React.createContext();
 
 export default function dataContext(props) {
   const [data, setData] = useState(null);
+  const [analytics, setAnalytics] = useState(null)
+  const [columns, setColumns] = useState([])
 
   useEffect(() => {
-    axios
-      .get(`/analytics/allData/`)
+    axios.get(`/analytics/allData/`)
       .then(({ data }) => {
-        setData(data);
-        console.log("Dataset received! ", data.dataset.length);
-        console.log("Analytics received! ", data.analytics);
+        setData(data.dataset);
+        setAnalytics(data.analytics)
+        setColumns(data.columns)
+        // console.log("Dataset received! ", data.dataset.length);
+        // console.log("Analytics received! ", data.analytics);
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
   }, []);
 
-  return <Context.Provider value={{ data: data }}>{props.children}</Context.Provider>;
+  const insertData = (jsonData) => {
+    console.log("Inserting Data: ", jsonData)
+
+    let newData = {}
+    columns.map((column) => {
+      if (jsonData[column]) {
+        newData[column] = jsonData[column]
+      } else {
+        newData[column] = ''
+      }
+    })
+
+    analytics.cases++
+    console.log("test: ", newData[columns[columns.length - 1]])
+    newData.death == true ? analytics.deaths++ : null
+    newData.recovered == true ? analytics.recoveries++ : null
+
+    data.push(newData)
+  }
+
+  const updateData = () => {
+
+  }
+
+  const deleteData = () => {
+
+  }
+
+  return (
+    <Context.Provider
+      value={{
+        data,
+        analytics,
+        columns,
+        insertData
+      }}>
+      {props.children}
+    </Context.Provider>
+  )
 }

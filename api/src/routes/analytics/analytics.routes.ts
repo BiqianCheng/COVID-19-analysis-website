@@ -6,8 +6,10 @@ const router = express.Router()
 router.get('/allData', async (req: any, res) => {
   const {columns, data} = parseCSV()
 
+  data.pop()
+
   let analytics = {
-    cases: data.length,
+    cases: data.length, //subtract last row and column header row
     deaths: 0,
     recoveries: 0,
     mostCountry: "",
@@ -28,13 +30,14 @@ router.get('/allData', async (req: any, res) => {
   }
 
   data.map((entry) => {
-    if (!entry.id) return // return if empty entry
+    if (!entry.id || !entry.country || !entry.location || !entry.gender) return // return if empty entry
 
     entry.death == 1 ? analytics.deaths++ : null
     entry.recovered == 1 ? analytics.recoveries++ : null
 
+
     let country = entry.country.toLowerCase()
-    if (countries[country]) {
+    if (countries[country] && country.length > 0) {
       countries[country] = ++countries[country]
     } else {
       countries[country] = 1
@@ -72,7 +75,11 @@ router.get('/allData', async (req: any, res) => {
   
 
   let maxVal: any = 0
+  let countryData = []
   Object.entries(countries).map(([key, value]) => {
+    countryData.push({
+      [key]: value
+    })
     if ( maxVal < value) {
       maxVal = value
       analytics.mostCountry = key
@@ -80,7 +87,11 @@ router.get('/allData', async (req: any, res) => {
   })
 
   maxVal = 0
+  let locationData = []
   Object.entries(locations).map(([key, value]) => {
+    locationData.push({
+      [key]: value
+    })
     if ( maxVal < value) {
       maxVal = value
       analytics.mostLocation = key
@@ -88,7 +99,11 @@ router.get('/allData', async (req: any, res) => {
   })
 
   maxVal = 0
+  let genderData = []
   Object.entries(genders).map(([key, value]) => {
+    genderData.push({
+      [key]: value
+    })
     if ( maxVal < value) {
       maxVal = value
       analytics.mostGender = key
@@ -96,7 +111,11 @@ router.get('/allData', async (req: any, res) => {
   })
 
   maxVal = 0
+  let ageData = []
   Object.entries(ageGroups).map(([key, value]) => {
+    ageData.push({
+      [key]: value
+    })
     if ( maxVal < value) {
       maxVal = value
       analytics.mostAgeGroup = key
@@ -106,7 +125,7 @@ router.get('/allData', async (req: any, res) => {
   res.json({
     columns: columns,
     dataset: data,
-    analytics: analytics,
+    analytics: analytics
   })
 })
 
