@@ -195,6 +195,14 @@ export const mergeCSVs = () => {
           if (mColumn.name == "id") {
             modifiedEntry[mColumn.colNum] = idCounter
             idCounter++
+          } else if (mColumn.name == "reporting date") {
+            let date = entry[foundColumn[0].colNum]
+            if (dataset.name == "openLineList") {
+              // change from 1.20.2020 to 1/20/2020 date format
+              // make sure to check if date is not undefined
+              date = date ? date.split('.').join('/') : date
+              modifiedEntry[mColumn.colNum] = date
+            }
           } else {
             modifiedEntry[mColumn.colNum] = entry[foundColumn[0].colNum]
           }

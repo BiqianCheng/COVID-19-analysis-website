@@ -1,12 +1,10 @@
 import { json } from 'body-parser';
 import express from 'express'
 const { Parser } = require('json2csv');
-import parseCSV from '../../utils/csvUtils'
+import parseCSV, {activeDataset} from '../../utils/csvUtils'
 const fs = require('fs');
 
 const router = express.Router()
-
-const activeDataset = "./src/db/COVID19_line_list_data.csv"
 
 router.post('/insert', async (req: any, res) => {
   let { jsonData } = req.body

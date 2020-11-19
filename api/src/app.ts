@@ -14,6 +14,7 @@ class App {
     this.app = express();
     this.config();
     this.routes();
+
   }
 
   config() {

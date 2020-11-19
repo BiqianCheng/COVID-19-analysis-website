@@ -162,11 +162,4 @@ router.get('/search', async (req: any, res) => {
   })
 })
 
-router.get('/test', async (req: any, res) => {
-  console.log("Hello from the api server!")
-  res.json({
-    message: "Hello from the api server!"
-  })
-})
-
 export default router
