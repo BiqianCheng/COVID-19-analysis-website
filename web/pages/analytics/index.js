@@ -24,10 +24,12 @@ export default function Analytics() {
 
   useEffect(() => {
     if (dataContext.data != null) {
+      console.time('Retrieving Dataset Runtime');
       setData(dataContext.data.dataset)
       setAnalytics(dataContext.data.analytics)
       setColumns(dataContext.data.columns)
       setLoading(false)
+      console.timeEnd('Retrieving Dataset Runtime')
     }
   }, [dataContext.data])
 
