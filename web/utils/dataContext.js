@@ -35,7 +35,7 @@ export default function dataContext(props) {
     })
 
     analytics.cases++
-    console.log("test: ", newData[columns[columns.length - 1]])
+    // console.log("test: ", newData[columns[columns.length - 1]])
     newData.death == true ? analytics.deaths++ : null
     newData.recovered == true ? analytics.recoveries++ : null
 

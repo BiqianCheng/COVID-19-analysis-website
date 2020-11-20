@@ -23,8 +23,8 @@ export default function Analytics() {
   const [columns, setColumns] = useState(null)
 
   useEffect(() => {
+    console.time('Retrieving Dataset Runtime');
     if (dataContext.analytics != null) {
-      console.time('Retrieving Dataset Runtime');
       setData(dataContext.data)
       setAnalytics(dataContext.analytics)
       setColumns(dataContext.columns)

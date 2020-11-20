@@ -37,7 +37,6 @@ export default function Analytics() {
       })
       .then(({ data }) => {
         setData(data.filteredData);
-        console.log("Successfully talked to the server!: ", data.filteredData);
       })
       .catch((error) => {
         console.log(error);
