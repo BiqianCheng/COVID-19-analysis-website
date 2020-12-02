@@ -157,10 +157,18 @@ const DataTable = ({ data, action, setAction }) => {
 
   const handlePopUpChange = (evt) => {
     const value = evt.target.value;
-    setInput({
-      ...input,
-      [evt.target.id]: value,
-    });
+
+    if (evt.target.id) {
+      setInput({
+        ...input,
+        [evt.target.id]: value,
+      });
+    } else {
+      setInput({
+        ...input,
+        [evt.target.name]: value,
+      });
+    }
   };
 
   const handleDeletion = (i) => {
@@ -262,8 +270,8 @@ const DataTable = ({ data, action, setAction }) => {
               </Button>
             </StyledTableCell>
           ) : (
-            <></>
-          )}
+              <></>
+            )}
           {columns.map((column) => {
             const value = row[column.id];
             return (
@@ -306,8 +314,8 @@ const DataTable = ({ data, action, setAction }) => {
                   </StyledTableCell>
                 </React.Fragment>
               ) : (
-                <></>
-              )}
+                  <></>
+                )}
               {columns.map((column) => (
                 <StyledTableCell
                   key={column.id}

@@ -65,7 +65,7 @@ export default function Analytics() {
 
   const handlePopUpChange = (evt) => {
     const value = evt.target.value;
-    console.log("test: ", evt.target)
+
     if (evt.target.id) {
       setInput({
         ...input,
