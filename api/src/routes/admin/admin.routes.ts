@@ -73,7 +73,8 @@ router.put('/update/:index', async (req: any, res) => {
   const updatedDataCsv = parser.parse(data[index])
 
   // replace csv row at index with updated data
-  csvArray.splice(index+1, 1, updatedDataCsv)
+  csvArray.splice(index, 1, updatedDataCsv)
+  csvArray.unshift(columns) // readd column headers to top of csv
   const csv = csvArray.join('\n')
 
   fs.writeFile(activeDataset, csv, (err) => { 
