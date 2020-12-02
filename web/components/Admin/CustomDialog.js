@@ -7,6 +7,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 export default function CustomDialog({
   title,
@@ -17,6 +22,7 @@ export default function CustomDialog({
   handlePopUpSumbit,
   handlePopUpChange,
 }) {
+
   return (
     <Dialog
       open={open}
@@ -44,20 +50,44 @@ export default function CustomDialog({
             );
           }
           return (
-            <TextField
-              style={{ minHeight: "3rem" }}
-              onChange={handlePopUpChange}
-              value={input[value]}
-              variant="outlined"
-              autoFocus
-              size="medium"
-              margin="dense"
-              id={value}
-              label={value}
-              disabled={value === ("id" || "index") ? true : false}
-              fullWidth
-            />
-          );
+            (value === "death" || value === "recovered") ?
+              <>
+                <FormControl
+                  variant="outlined"
+                  size="medium"
+                  margin="dense"
+                  style={{ minHeight: "3rem" }}
+                  fullWidth
+                >
+                  <InputLabel>{value}</InputLabel>
+                  <Select
+                    id={value}
+                    name={value}
+                    label={value}
+                    value={input[value]}
+                    onChange={handlePopUpChange}
+                  >
+                    <MenuItem value={true}>true</MenuItem>
+                    <MenuItem value={false}>false</MenuItem>
+                  </Select>
+                </FormControl>
+              </>
+              :
+              <TextField
+                style={{ minHeight: "3rem" }}
+                onChange={handlePopUpChange}
+                value={input[value]}
+                variant="outlined"
+                autoFocus={i == 0}
+                size="medium"
+                margin="dense"
+                id={value}
+                label={value}
+                disabled={value === ("id" || "index") ? true : false}
+                fullWidth
+              />
+          )
+
         })}
       </DialogContent>
       <DialogActions>

@@ -65,10 +65,18 @@ export default function Analytics() {
 
   const handlePopUpChange = (evt) => {
     const value = evt.target.value;
-    setInput({
-      ...input,
-      [evt.target.id]: value,
-    });
+    console.log("test: ", evt.target)
+    if (evt.target.id) {
+      setInput({
+        ...input,
+        [evt.target.id]: value,
+      });
+    } else {
+      setInput({
+        ...input,
+        [evt.target.name]: value,
+      });
+    }
   };
 
   const handlePopUpSumbit = () => {
