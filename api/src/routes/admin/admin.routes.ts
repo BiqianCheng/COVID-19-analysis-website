@@ -88,7 +88,7 @@ router.put('/update/:index', async (req: any, res) => {
 
 router.delete('/delete/:index', async (req: any, res) => {
   const { index } = req.params
-  let {csvArray, data} = parseCSV()
+  let {columns, csvArray, data} = parseCSV()
 
   // check if data exists at index passed
   const found = data[index]
@@ -102,7 +102,8 @@ router.delete('/delete/:index', async (req: any, res) => {
   }
 
   // delete data at index
-  csvArray.splice(index+1, 1) 
+  csvArray.splice(index, 1) 
+  csvArray.unshift(columns) // readd column headers to top of csv
   // turn array into one big string merged according to the delimiter '\n'
   csvArray = csvArray.join('\n')
 

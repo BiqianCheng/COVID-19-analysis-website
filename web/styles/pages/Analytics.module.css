@@ -7,7 +7,7 @@
   margin: 0 auto;
 }
 
-.table {
+.header {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,16 +15,7 @@
   margin-bottom: 30px;
 }
 
-.charts {
-  display: flex;
-  justify-content: center;
-  max-width: 1000px;
-  width: 1000px;
-  max-height: 500px;
-  position: relative;
-}
-
-.header {
+.gridRow {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,19 +35,6 @@
   line-height: 1.5;
   font-size: 1.2rem;
   opacity: 0.8;
-}
-
-.contentWrapper {
-  margin-top: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.contentWrapper Button {
- margin: 10px;   
 }
 
 .loading {

@@ -64,7 +64,7 @@ export default function Analytics() {
                   }}
                 >
                   <Grid container direction="row" justify="center">
-                    <Grid className={styles.header} item xs={4}>
+                    <Grid className={styles.gridRow} item xs={4}>
                       <div
                         className={styles.description}
                         style={{ margin: "0" }}
@@ -78,7 +78,7 @@ export default function Analytics() {
                         {analytics.cases}
                       </div>
                     </Grid>
-                    <Grid className={styles.header} item xs={4}>
+                    <Grid className={styles.gridRow} item xs={4}>
                       <div
                         className={styles.description}
                         style={{ margin: "0" }}
@@ -92,7 +92,7 @@ export default function Analytics() {
                         {analytics.deaths}
                       </div>
                     </Grid>
-                    <Grid className={styles.header} item xs={4}>
+                    <Grid className={styles.gridRow} item xs={4}>
                       <div
                         className={styles.description}
                         style={{ margin: "0" }}
