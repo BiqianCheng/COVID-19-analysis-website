@@ -19,15 +19,28 @@
   opacity: 0.8;
 }
 
+.searchTitle {
+  margin-top: 20px;
+  line-height: 1.5;
+  font-size: 1.5rem;
+
+}
+
 .gridContainer {
   padding-top: 50px;
 }
 
-.submit{
+.submitContainer {
+  margin-top: 20px !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.submitButton {
+  width: 160px;
+  height: 40px;
 }
 
 .loading {
@@ -54,11 +67,9 @@
 }
 
 .charts {
+  margin-top: 30px;
   display: flex;
   justify-content: center;
 }
 
-.date_picker {
-  transform: translateY(-16px);
-}
 

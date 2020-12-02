@@ -29,12 +29,12 @@ const death = ["Yes", "No"];
 export default function Home() {
   const [data, setData] = useState(null);
   const [value, setValue] = useState({
-    country: countryOptions[0],
-    location: locationOptions[0],
+    country: "",
+    location: "",
     age: "",
-    gender: sex[0],
-    recovered: recovered[0],
-    death: death[0],
+    gender: "",
+    recovered: "",
+    death: "",
   });
   const [inputValue, setInputValue] = useState({
     country: "",
@@ -101,15 +101,18 @@ export default function Home() {
           <div className={styles.description}>
             Helping you understand the current state of COVID-19
           </div>
+          {/* <div className={styles.searchTitle}>
+            Search for cases of Covid-19
+          </div> */}
           <Container maxWidth="lg">
             <Grid
               container
               className={styles.gridContainer}
               justify="center"
-              spacing={5}
+              spacing={2}
             >
               {/* Country Autocompete */}
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Autocomplete
                   value={value.country}
                   onChange={(event, newValue) => {
@@ -122,14 +125,19 @@ export default function Home() {
                   options={countryOptions}
                   // style={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Country" variant="outlined" />
+                    <TextField
+                      {...params}
+                      label="Country"
+                      variant="outlined"
+                      helperText="Country of case"
+                    />
                   )}
                   blurOnSelect
                 />
               </Grid>
 
               {/* Location selection */}
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Autocomplete
                   value={value.location}
                   onChange={(e, newValue) => {
@@ -139,19 +147,9 @@ export default function Home() {
                   }
                   options={locationOptions}
                   renderInput={(params) => (
-                    <TextField {...params} label="Location" variant="outlined" />
+                    <TextField {...params} label="Location" variant="outlined" helperText="Location of case" />
                   )}
                   blurOnSelect
-                />
-              </Grid>
-
-              {/* Age selection */}
-              <Grid item xs={2}>
-                <TextField
-                  onChange={(e) => handleValueChange("age", e.target.value)}
-                  defaultValue={value.age}
-                  label="Age"
-                  variant="outlined"
                 />
               </Grid>
 
@@ -171,6 +169,7 @@ export default function Home() {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
+                      helperText="Filter search by cases logged after this date"
                     />
                   </MuiPickersUtilsProvider>
                 </div>
@@ -178,27 +177,37 @@ export default function Home() {
 
               {/* pick end date */}
               <Grid item xs={6}>
-                <div className={styles.date_picker}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      fullWidth
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Enter end date"
-                      format="MM/dd/yyyy"
-                      value={endDate}
-                      onChange={setEndDate}
-                      inputVariant="outlined"
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    fullWidth
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Enter end date"
+                    format="MM/dd/yyyy"
+                    value={endDate}
+                    onChange={setEndDate}
+                    inputVariant="outlined"
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    helperText="Filter search by cases logged before this date"
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+
+              {/* Age selection */}
+              <Grid item xs={3}>
+                <TextField
+                  onChange={(e) => handleValueChange("age", e.target.value)}
+                  defaultValue={value.age}
+                  label="Age"
+                  variant="outlined"
+                  helperText="Age of person"
+                />
               </Grid>
 
               {/* Gender autocomplete */}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Autocomplete
                   value={value.gender}
                   onChange={(event, newValue) => {
@@ -219,7 +228,7 @@ export default function Home() {
               </Grid>
 
               {/* Recovered input*/}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Autocomplete
                   value={value.recovered}
                   onChange={(event, newValue) => {
@@ -234,8 +243,9 @@ export default function Home() {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="recovered"
+                      label="Recovered"
                       variant="outlined"
+                      helperText="Check if person recovered from Covid"
                     />
                   )}
                   blurOnSelect
@@ -243,7 +253,7 @@ export default function Home() {
               </Grid>
 
               {/* death Autocompete */}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Autocomplete
                   value={value.death}
                   onChange={(event, newValue) => {
@@ -256,19 +266,25 @@ export default function Home() {
                   options={death}
                   // style={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="death" variant="outlined" />
+                    <TextField
+                      {...params}
+                      label="Death"
+                      variant="outlined"
+                      helperText="Check if person passed away from Covid"
+                    />
                   )}
                   blurOnSelect
                 />
               </Grid>
 
-              <Grid className={styles.submit} item xs={12}>
+              <Grid className={styles.submitContainer} item xs={12}>
                 <Button
+                  className={styles.submitButton}
                   variant="contained"
                   onClick={handleSubmit}
                   color="primary"
                 >
-                  Submit
+                  Search
                 </Button>
               </Grid>
             </Grid>
