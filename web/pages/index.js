@@ -44,9 +44,9 @@ export default function Home() {
     recovered: "",
     death: "",
   });
-  const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -71,6 +71,19 @@ export default function Home() {
         setLoading(false);
       });
   };
+
+  const handleReset = () => {
+    setValue({
+      country: "",
+      location: "",
+      age: "",
+      gender: "",
+      recovered: "",
+      death: "",
+    })
+    setStartDate(null)
+    setEndDate(null)
+  }
 
   const handleValueChange = (key, v, reason) => {
     if (reason == "clear") {
@@ -101,13 +114,12 @@ export default function Home() {
           <div className={styles.description}>
             Helping you understand the current state of COVID-19
           </div>
-          {/* <div className={styles.searchTitle}>
-            Search for cases of Covid-19
-          </div> */}
-          <Container maxWidth="lg">
+          <Container className={styles.gridContainer} maxWidth="md">
+            <div className={styles.searchTitle}>
+              Advanced search for cases of Covid-19
+            </div>
             <Grid
               container
-              className={styles.gridContainer}
               justify="center"
               spacing={2}
             >
@@ -277,12 +289,17 @@ export default function Home() {
                 />
               </Grid>
 
-              <Grid className={styles.submitContainer} item xs={12}>
+              <Grid className={styles.buttonsContainer} item xs={12}>
+                <Button
+                  className={styles.resetButton}
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
                 <Button
                   className={styles.submitButton}
                   variant="contained"
                   onClick={handleSubmit}
-                  color="primary"
                 >
                   Search
                 </Button>

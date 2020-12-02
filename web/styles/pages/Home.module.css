@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 60px;
 }
 
 .title {
@@ -20,27 +21,37 @@
 }
 
 .searchTitle {
-  margin-top: 20px;
+  margin-bottom: 20px;
   line-height: 1.5;
   font-size: 1.5rem;
-
 }
 
 .gridContainer {
-  padding-top: 50px;
+  background: #faf2e9;
+  border-radius: 16px;
+  padding: 40px !important;
+  margin-top: 40px;
 }
 
-.submitContainer {
+.buttonsContainer {
   margin-top: 20px !important;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
 }
 
-.submitButton {
-  width: 160px;
+.resetButton {
+  width: 140px;
   height: 40px;
+  margin-right: 10px !important;
+}
+
+.submitButton {
+  width: 140px;
+  height: 40px;
+  background-color: #5c82ba !important;
+  color: white !important;
 }
 
 .loading {
@@ -67,7 +78,7 @@
 }
 
 .charts {
-  margin-top: 30px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
 }
