@@ -1,10 +1,9 @@
 import styles from "../styles/pages/Home.module.css";
 import Navbar from "../components/Navbar/Navbar";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
@@ -19,8 +18,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import Typography from "@material-ui/core/Typography";
 import { locationOptions, countryOptions } from '../utils/dataUtils'
+import { Context } from "../utils/dataContext";
 
 const sex = ["male", "female", "Other"];
 const recovered = ["1", "0"];
@@ -50,35 +49,23 @@ export default function Home() {
   const [ageError, setAgeError] = useState("");
   const [searchError, setSearchError] = useState("")
 
+  const dataContext = useContext(Context);
+
   const handleSubmit = () => {
-    setLoading(true);
+    setLoading(true)
     if (data) {
-      setData(null);
+      setData(null)
     }
-    axios
-      .get(`/analytics/search/`, {
-        params: {
-          data: value,
-          startDate: startDate,
-          endDate: endDate,
-        },
-      })
-      .then(({ data }) => {
-        console.log("test: ", data.filteredData)
-        if (data.filteredData.length == 0) {
-          console.log("Changed")
-          setSearchError("No cases found with these search filters")
-        } else {
-          setSearchError("")
-          setData(data.filteredData);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    let filteredData = dataContext.searchData(value, startDate, endDate)
+    setLoading(false)
+
+    if (filteredData.length == 0) {
+      console.log("Changed")
+      setSearchError("No cases found with these search filters")
+    } else {
+      setSearchError("")
+      setData(filteredData)
+    }
   };
 
   const handleReset = () => {
@@ -103,6 +90,10 @@ export default function Home() {
     } else {
       if (key == "age") {
         if (v == "") { // empty input. equals to 0 aswell so we need to check this first
+          setValue({
+            ...value,
+            [key]: v,
+          });
           setAgeError("")
           return
         }

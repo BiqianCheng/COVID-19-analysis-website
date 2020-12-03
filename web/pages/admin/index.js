@@ -27,24 +27,25 @@ export default function Analytics() {
   const dataContext = useContext(Context);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/analytics/search/`, {
-        params: {
-          data: {},
-        },
-      })
-      .then(({ data }) => {
-        setData(data.filteredData);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  // Non IA way to get all the data for the data table
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axios
+  //     .get(`/analytics/search/`, {
+  //       params: {
+  //         data: {},
+  //       },
+  //     })
+  //     .then(({ data }) => {
+  //       setData(data.filteredData);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   const handlePopUpOpen = () => {
     setpopUpOpen(true);
@@ -81,7 +82,6 @@ export default function Analytics() {
 
   const handlePopUpSumbit = () => {
     const jsonData = input;
-    console.log("Test: ", input)
     // axios
     //   .post(`/admin/insert/`, { jsonData })
     //   .then(({ data }) => {
