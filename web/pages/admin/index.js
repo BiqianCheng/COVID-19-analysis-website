@@ -81,6 +81,7 @@ export default function Analytics() {
 
   const handlePopUpSumbit = () => {
     const jsonData = input;
+    console.log("Test: ", input)
     axios
       .post(`/admin/insert/`, { jsonData })
       .then(({ data }) => {

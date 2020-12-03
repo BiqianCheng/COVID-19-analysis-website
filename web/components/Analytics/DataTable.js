@@ -226,8 +226,8 @@ const DataTable = ({ data, action, setAction }) => {
       point.location,
       point.age,
       point.gender,
-      Number(point.death) ? "Yes" : "No",
-      Number(point.recovered) ? "Yes" : "No",
+      Boolean(point.death) ? "Yes" : "No",
+      Boolean(point.recovered) ? "Yes" : "No",
       point.id,
       point.summary
     );

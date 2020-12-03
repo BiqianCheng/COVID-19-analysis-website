@@ -1,5 +1,5 @@
 id,reporting date,summary,location,country,gender,age,death,recovered
-1,1/20/2020,"First confirmed imported COVID-19 pneumonia patient in Shanghai (from Wuhan): female, 56, Wuhan residence, arrived in Shanghai from Wuhan on 01/12/2020, symptom onset and visited fever clinic on 01/15/2020, laboratory confirmed on 01/20/2020","Shenzhen, Guangdong",China Test Update,male,66,No,0
+1,1/20/2020,"First confirmed imported COVID-19 pneumonia patient in Shanghai (from Wuhan): female, 56, Wuhan residence, arrived in Shanghai from Wuhan on 01/12/2020, symptom onset and visited fever clinic on 01/15/2020, laboratory confirmed on 01/20/2020","Shenzhen, Guangdong",China Test Update,male,66,0,0
 2,1/20/2020,"First confirmed imported COVID-19 pneumonia patient in Shanghai (from Wuhan): female, 56, Wuhan residence, arrived in Shanghai from Wuhan on 01/12/2020, symptom onset and visited fever clinic on 01/15/2020, laboratory confirmed on 01/20/2020",Shanghai,China,female,56,0,0
 3,1/21/2020,"First confirmed imported cases in Zhejiang: patient is male, 46, lives in Wuhan, self-driving from Wuhan to Hangzhou on 01/03/2020, symptom onset 01/04/2020, hospitalized on 01/17/2020, sample deliver to China CDC for testing on 01/20/2020, test positive on 01/21/2020.",Zhejiang,China,male,46,0,0
 4,1/21/2020,"new confirmed imported COVID-19 pneumonia in Tianjin: female, age 60, recently visited Wuhan, visited fever clinic on 01/19/2020 in Tianjin then quarantined immediately.",Tianjin,China,female,60,0,0
@@ -1084,8 +1084,6 @@ id,reporting date,summary,location,country,gender,age,death,recovered
 1083,2/26/2020,"new COVID-19 patient confirmed in Algeria: male, Italian who arrived in the country on 2/17",Algeria,Algeria,male,NA,0,0
 1084,2/25/2020,"new COVID-19 patient confirmed in Croatia: male, recently returned from Milan, was there from 2/19-2/21",Croatia,Croatia,male,NA,0,0
 1085,2/25/2020,"new COVID-19 patient confirmed in Switzerland: male, 70, infected in Milan during an event 2/15, symptom onset 2/17",Bern,Switzerland,male,70,0,0
-1086,2020-11-19T01:36:19.142Z,,My Backyard,USA,Male,23,yes,no
-1087,,,,,,,,
 1088,22/01/2020,,Anhui,China,male,30,0,0
 1089,23/01/2020,,Anhui,China,male,47,0,0
 1090,23/01/2020,,Anhui,China,male,49,0,0

@@ -154,6 +154,10 @@ export const parseCSV = () => {
   let csvData = fs.readFileSync(activeDataset, 'utf8');
   // create a new array by splitting the raw data csv based on newlines
   csvData = csvData.split('\n');
+  csvData = csvData.map((line) => {
+    // regex from: https://stackoverflow.com/questions/10805125/how-to-remove-all-line-breaks-from-a-string
+    return line.replace(/(\r\n|\n|\r)/gm, "") // remove \r and \n from end of strings
+  })
   columnHeaders = csvData[0].split(',')
   csvData.shift() // remove column headers from json data
 

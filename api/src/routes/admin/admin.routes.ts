@@ -11,12 +11,12 @@ router.post('/insert', async (req: any, res) => {
   const {columns, data} = parseCSV()
   // get the last element's id in the dataset
   const [[lastIdKey, lastIdValue]] = Object.entries(data.slice(-2)[0]) 
- 
+  
   // After testing. This console.log proves that the id key has an empty string in front of it.
   // Thus obj.id won't work must use Object.keys and get the key value directly
   // console.log(lastIdKey[0].split(''))
   jsonData[lastIdKey] = Number(lastIdValue)+1
-
+  
   // populate reporting date with date of insert
   if (!jsonData["reporting date"]) {
     var today = new Date();
