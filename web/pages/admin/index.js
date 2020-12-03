@@ -1,13 +1,14 @@
 import styles from "../../styles/pages/Admin.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Button from "@material-ui/core/Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import DataTable from "../../components/Analytics/DataTable";
 import ImportDialog from "../../components/Admin/ImportDialog";
 import CustomDialog from "../../components/Admin/CustomDialog";
 import CustomSnack from "../../components/Admin/CustomSnack";
+import { Context } from "../../utils/dataContext";
 
 export default function Analytics() {
   const [popUpOpen, setpopUpOpen] = useState(false);
@@ -23,7 +24,7 @@ export default function Analytics() {
     recovered: "",
     death: "",
   });
-
+  const dataContext = useContext(Context);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -36,7 +37,6 @@ export default function Analytics() {
       })
       .then(({ data }) => {
         setData(data.filteredData);
-        console.log("Successfully talked to the server!: ", data.filteredData);
       })
       .catch((error) => {
         console.log(error);
@@ -82,15 +82,16 @@ export default function Analytics() {
   const handlePopUpSumbit = () => {
     const jsonData = input;
     console.log("Test: ", input)
-    axios
-      .post(`/admin/insert/`, { jsonData })
-      .then(({ data }) => {
-        console.log("Succesfully inserted data into file: ", data.csv);
-        setAction("error");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .post(`/admin/insert/`, { jsonData })
+    //   .then(({ data }) => {
+    //     console.log("Succesfully inserted data into file: ", data.csv);
+    //     setAction("error");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    dataContext.insertData(jsonData)
     setpopUpOpen(false);
     setInput({
       country: "",

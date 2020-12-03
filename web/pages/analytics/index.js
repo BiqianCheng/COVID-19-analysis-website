@@ -1,6 +1,7 @@
 import styles from "../../styles/pages/Analytics.module.css";
 import Navbar from "../../components/Navbar/Navbar";
-import { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   CircularProgress,
@@ -12,33 +13,25 @@ import {
 import LocationsChart from "../../components/Analytics/LocationsChart";
 import AgeChart from "../../components/Analytics/AgeChart";
 import RDRatioChart from "../../components/Analytics/RDRatioChart";
+import { Context } from "../../utils/dataContext";
 
 export default function Analytics() {
-  const [columns, setColumns] = useState(null);
-  const [data, setData] = useState(null);
-  const [analytics, setAnalytics] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const dataContext = useContext(Context);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null)
+  const [analytics, setAnalytics] = useState(null)
+  const [columns, setColumns] = useState(null)
 
   useEffect(() => {
-    setLoading(true);
-    console.time('Retrieve whole dataset and analytics calculations');
-    axios
-      .get(`/analytics/allData/`)
-      .then(({ data }) => {
-        setData(data.dataset);
-        setAnalytics(data.analytics);
-        setColumns(data.columns);
-        console.log(`Dataset received. ${data.dataset.length} rows of data`);
-        console.log("Analytics received! ", data.analytics);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-        console.timeEnd('Retrieve whole dataset and analytics calculations')
-      });
-  }, []);
+    console.time('Retrieving Dataset Runtime');
+    if (dataContext.analytics != null) {
+      setData(dataContext.data)
+      setAnalytics(dataContext.analytics)
+      setColumns(dataContext.columns)
+      setLoading(false)
+      console.timeEnd('Retrieving Dataset Runtime')
+    }
+  }, [dataContext.data, dataContext.analytics])
 
   return (
     <>
@@ -46,9 +39,9 @@ export default function Analytics() {
       <div className={styles.pageContainer}>
         <div className={styles.header}>
           <div className={styles.title}>Analytics</div>
-          <div className={styles.description}>Overall of COVID-19 dataset</div>
+          <div className={styles.description}>Overall analysis of COVID-19 dataset</div>
         </div>
-        {analytics ? (
+        {!loading ? (
           <Container maxWidth="lg">
             <Grid
               container
