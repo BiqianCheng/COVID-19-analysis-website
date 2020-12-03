@@ -23,8 +23,8 @@ import Typography from "@material-ui/core/Typography";
 import { locationOptions, countryOptions } from '../utils/dataUtils'
 
 const sex = ["male", "female", "Other"];
-const recovered = ["Yes", "No"];
-const death = ["Yes", "No"];
+const recovered = ["1", "0"];
+const death = ["1", "0"];
 
 export default function Home() {
   const [data, setData] = useState(null);

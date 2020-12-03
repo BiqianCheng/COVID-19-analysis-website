@@ -108,6 +108,7 @@ function createData(
   summary
 ) {
   return {
+    id,
     index,
     reporting_date,
     country,
@@ -116,7 +117,6 @@ function createData(
     gender,
     death,
     recovered,
-    id,
     summary,
   };
 }
@@ -226,8 +226,8 @@ const DataTable = ({ data, action, setAction }) => {
       point.location,
       point.age,
       point.gender,
-      Boolean(point.death) ? "Yes" : "No",
-      Boolean(point.recovered) ? "Yes" : "No",
+      point.death,
+      point.recovered,
       point.id,
       point.summary
     );

@@ -142,9 +142,9 @@ router.get('/search', async (req: any, res) => {
       delete queryInputs[key]
     } 
     // Convert Yes/No into boolean values
-    if (queryInputs[key] == "Yes") {
+    if (queryInputs[key] == "1") {
       queryInputs[key] = 1
-    } else if (queryInputs[key] == "No") {
+    } else if (queryInputs[key] == "0") {
       queryInputs[key] = 0
     }
   }
@@ -155,7 +155,7 @@ router.get('/search', async (req: any, res) => {
     for (let key in queryInputs) {
       if (entry[key] === undefined) {
         return false
-      } else if (typeof entry[key] != "string" || typeof queryInputs[key] != "string") {
+      } else if (typeof queryInputs[key] != "string") {
         if (entry[key] != queryInputs[key]) {
           return false
         }

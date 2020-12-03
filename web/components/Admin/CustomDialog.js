@@ -67,8 +67,8 @@ export default function CustomDialog({
                     value={input[value]}
                     onChange={handlePopUpChange}
                   >
-                    <MenuItem value={true}>true</MenuItem>
-                    <MenuItem value={false}>false</MenuItem>
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={0}>0</MenuItem>
                   </Select>
                 </FormControl>
               </>
@@ -98,6 +98,6 @@ export default function CustomDialog({
           Submit
         </Button>
       </DialogActions>
-    </Dialog>
+    </Dialog >
   );
 }
