@@ -165,10 +165,10 @@ export default function Analytics() {
             <CircularProgress style={{ color: "black" }} size={16} />
           </div>
         )}
-        {data && (
+        {dataContext.data && (
           <div className={styles.table}>
             <DataTable
-              data={data}
+              data={dataContext.data}
               key={data}
               action={action}
               setAction={setAction}

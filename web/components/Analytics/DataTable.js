@@ -1,5 +1,5 @@
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -24,6 +24,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { Context } from "../../utils/dataContext";
 
 // Using material-ui's table ui and populating it with our data
 
@@ -130,6 +131,8 @@ const DataTable = ({ data, action, setAction }) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [rowIndex, setRowIndex] = useState();
 
+  const dataContext = useContext(Context);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -171,24 +174,25 @@ const DataTable = ({ data, action, setAction }) => {
     }
   };
 
-  const handleDeletion = (i) => {
+  const handleDeletion = (index) => {
     setDeleteOpen(false);
-    const index = i;
-    console.log("Deleteing by row index: ", i);
-    axios
-      .delete(`/admin/delete/${index}`)
-      .then(() => {
-        console.log("Succesfully deleted data in the dataset: ", index);
-        setAction("delete");
-      })
-      .catch((error) => {
-        setAction("error");
-        if (error.response) {
-          console.log(error.response.data);
-        } else {
-          console.log(error);
-        }
-      });
+    console.log("Deleteing by row index: ", index);
+    // Non IA version commented out
+    // axios
+    //   .delete(`/admin/delete/${index}`)
+    //   .then(() => {
+    //     console.log("Succesfully deleted data in the dataset: ", index);
+    //     setAction("delete");
+    //   })
+    //   .catch((error) => {
+    //     setAction("error");
+    //     if (error.response) {
+    //       console.log(error.response.data);
+    //     } else {
+    //       console.log(error);
+    //     }
+    //   });
+    dataContext.deleteData(index)
   };
 
   const handleEdit = (row) => {
@@ -200,22 +204,23 @@ const DataTable = ({ data, action, setAction }) => {
     const index = input.index;
     const jsonData = input;
     handlePopUpClose();
-    axios
-      .put(`/admin/update/${index}`, { jsonData })
-      .then(({ data }) => {
-        console.log(
-          "Succesfully updated data in the dataset: ",
-          data.updatedData
-        );
-        setAction("edit");
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log(error.response.data);
-        } else {
-          console.log(error);
-        }
-      });
+    // axios
+    //   .put(`/admin/update/${index}`, { jsonData })
+    //   .then(({ data }) => {
+    //     console.log(
+    //       "Succesfully updated data in the dataset: ",
+    //       data.updatedData
+    //     );
+    //     setAction("edit");
+    //   })
+    //   .catch((error) => {
+    //     if (error.response) {
+    //       console.log(error.response.data);
+    //     } else {
+    //       console.log(error);
+    //     }
+    //   });
+    dataContext.updateData(index, jsonData)
   };
 
   const rows = data.map((point, i) => {

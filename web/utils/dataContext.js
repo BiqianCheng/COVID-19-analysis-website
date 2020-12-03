@@ -42,12 +42,23 @@ export default function dataContext(props) {
     data.push(newData)
   }
 
-  const updateData = () => {
+  const updateData = (index, jsonData) => {
+    const found = data[index]
 
+    if (!found) {
+      console.log(`Data not found in the dataset for: ${index}`)
+    }
+
+    data[index] = jsonData
   }
 
-  const deleteData = () => {
+  const deleteData = (index) => {
+    const found = data[index]
 
+    if (!found) {
+      console.log(`Data not found in the dataset for: ${index}`)
+    }
+    data.splice(index, 1)
   }
 
   return (
@@ -56,7 +67,9 @@ export default function dataContext(props) {
         data,
         analytics,
         columns,
-        insertData
+        insertData,
+        updateData,
+        deleteData
       }}>
       {props.children}
     </Context.Provider>
