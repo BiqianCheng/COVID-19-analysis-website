@@ -48,6 +48,7 @@ export default function Home() {
   const [endDate, setEndDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [ageError, setAgeError] = useState("");
+  const [searchError, setSearchError] = useState("")
 
   const handleSubmit = () => {
     setLoading(true);
@@ -63,7 +64,14 @@ export default function Home() {
         },
       })
       .then(({ data }) => {
-        setData(data.filteredData);
+        console.log("test: ", data.filteredData)
+        if (data.filteredData.length == 0) {
+          console.log("Changed")
+          setSearchError("No cases found with these search filters")
+        } else {
+          setSearchError("")
+          setData(data.filteredData);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -94,18 +102,20 @@ export default function Home() {
       });
     } else {
       if (key == "age") {
-          if (v <= 0) {
-            setAgeError("Age cannot be below 0")
-          }
-          else if(v >= 120) {
-            setAgeError("Age cannot be above 120")
-          }
-          else {
-            setAgeError("")
-          }
+        if (v == "") { // empty input. equals to 0 aswell so we need to check this first
+          setAgeError("")
+          return
         }
-        
-      
+        if (v <= 0) {
+          setAgeError("Age cannot be below 0")
+        }
+        else if (v >= 120) {
+          setAgeError("Age cannot be above 120")
+        }
+        else {
+          setAgeError("")
+        }
+      }
       setValue({
         ...value,
         [key]: v,
@@ -228,7 +238,7 @@ export default function Home() {
                   defaultValue={value.age}
                   label="Age"
                   variant="outlined"
-                  helperText={ageError? ageError : "Age of person"}
+                  helperText={ageError ? ageError : "Age of person"}
                   error={ageError}
                   type="number"
                 />
@@ -329,20 +339,27 @@ export default function Home() {
             </div>
           )}
 
-          {data && (
-            <div className={styles.analytics}>
-              <div className={styles.table}>
-                <DataTable data={data} key={data} />
+          <div className={styles.analytics}>
+            {data && !searchError && (
+              <>
+                <div className={styles.table}>
+                  <DataTable data={data} key={data} />
+                </div>
+                <div className={styles.charts}>
+                  <LocationsChart data={data} />
+                  <AgeChart data={data} />
+                </div>
+                <div className={styles.charts}>
+                  <RDRatioChart data={data} />
+                </div>
+              </>
+            )}
+            {searchError && (
+              <div className={styles.searchError}>
+                {searchError}
               </div>
-              <div className={styles.charts}>
-                <LocationsChart data={data} />
-                <AgeChart data={data} />
-              </div>
-              <div className={styles.charts}>
-                <RDRatioChart data={data} />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </>

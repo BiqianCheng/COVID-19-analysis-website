@@ -27,7 +27,7 @@
 }
 
 .gridContainer {
-  background: #faf2e9;
+  background: #fffbf6;
   border-radius: 16px;
   padding: 40px !important;
   margin-top: 40px;
@@ -67,6 +67,12 @@
   align-items: center;
   max-width: 1424px;
   margin: 0 auto;
+  margin-top: 30px;
+}
+
+.searchError {
+  font-size: 20px;
+  margin-top: 30px;
 }
 
 .table {
@@ -74,7 +80,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
 }
 
 .charts {

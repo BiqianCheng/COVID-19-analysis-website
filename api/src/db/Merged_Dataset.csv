@@ -1,3 +1,4 @@
 id,reporting date,summary,location,country,gender,age,death,recovered
 1,1/20/2020,"First confirmed imported COVID-19 pneumonia patient in Shanghai (from Wuhan): female, 56, Wuhan residence, arrived in Shanghai from Wuhan on 01/12/2020, symptom onset and visited fever clinic on 01/15/2020, laboratory confirmed on 01/20/2020","Shenzhen, Guangdong",China Test Update,male,66,No,0
 2,1/20/2020,"First confirmed imported COVID-19 pneumonia patient in Shanghai (from Wuhan): female, 56, Wuhan residence, arrived in Shanghai from Wuhan on 01/12/2020, symptom onset and visited fever clinic on 01/15/2020, laboratory confirmed on 01/20/2020",Shanghai,Kappa,female,56,No,
+3,2020-12-02T22:48:05.100Z,,Chicago,USA,male,32,true,

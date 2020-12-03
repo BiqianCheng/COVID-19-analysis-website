@@ -83,7 +83,7 @@ export default function CustomDialog({
                 margin="dense"
                 id={value}
                 label={value}
-                disabled={value === ("id" || "index") ? true : false}
+                disabled={(value === "id" || value === "index") ? true : false}
                 fullWidth
               />
           )
