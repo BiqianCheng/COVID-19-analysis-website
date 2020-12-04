@@ -9,8 +9,9 @@ export default function dataContext(props) {
   const [analytics, setAnalytics] = useState(null)
   const [columns, setColumns] = useState([])
 
-
+  // next.js check if client
   if (process.browser) {
+    // when user leaves the window (close or refresh) run function
     window.onbeforeunload = () => {
       if (modified) {
         axios.post(`/admin/saveDataset/`, { dataset: data })
@@ -24,8 +25,6 @@ export default function dataContext(props) {
         setData(data.dataset);
         setAnalytics(data.analytics)
         setColumns(data.columns)
-        // console.log("Dataset received! ", data.dataset.length);
-        // console.log("Analytics received! ", data.analytics);
       })
       .catch((error) => {
         console.log(error);
@@ -45,8 +44,8 @@ export default function dataContext(props) {
       }
     })
 
+    /*Insert incremental analytics strategy*/
     analytics.cases++
-    // console.log("test: ", newData[columns[columns.length - 1]])
     newData.death == true ? analytics.deaths++ : null
     newData.recovered == true ? analytics.recoveries++ : null
 
@@ -60,6 +59,15 @@ export default function dataContext(props) {
       console.log(`Data not found in the dataset for: ${index}`)
     }
 
+    /* Update incremental analytics strategy */
+    jsonData.death == true && found.death == false
+      ? analytics.deaths++ : jsonData.death == false && found.death == true
+        ? analytics.deaths-- : null
+
+    jsonData.recovered == true && found.recovered == false
+      ? analytics.recoveries++ : jsonData.recovered == false && found.recovered == true
+        ? analytics.recoveries-- : null
+
     data[index] = jsonData
   }
 
@@ -69,6 +77,12 @@ export default function dataContext(props) {
     if (!found) {
       console.log(`Data not found in the dataset for: ${index}`)
     }
+
+    /*Insert incremental analytics strategy*/
+    analytics.cases--
+    newData.death == true ? analytics.deaths-- : null
+    newData.recovered == true ? analytics.recoveries-- : null
+
     data.splice(index, 1)
   }
 
@@ -103,8 +117,6 @@ export default function dataContext(props) {
       }
     })
 
-
-    console.log("Filtered Data1: ", filteredData)
     for (let key in queryInputs) {
       // delete empty fields from the query
       if (queryInputs[key] == null || queryInputs[key] == '') {
@@ -117,7 +129,7 @@ export default function dataContext(props) {
         queryInputs[key] = 0
       }
     }
-    console.log("Filtered Data2: ", filteredData)
+
     // If the data is not equal to any of the filters then discard.
     // Else if it passes each filter then keep
     filteredData = filteredData.filter(entry => {
@@ -134,7 +146,7 @@ export default function dataContext(props) {
       }
       return true;
     })
-    console.log("Filtered Data3: ", filteredData)
+
     return filteredData
 
   }

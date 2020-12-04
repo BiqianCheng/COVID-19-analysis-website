@@ -161,7 +161,7 @@ router.get('/import/options', async (req: any, res) => {
 })
 
 router.post('/saveDataset', async (req: any, res) => {
-  let {columns, csvArray, data} = parseCSV()
+  let {columns} = parseCSV()
 
   const dataset = req.body.dataset //get passed in dataset
 

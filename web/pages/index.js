@@ -60,7 +60,6 @@ export default function Home() {
     setLoading(false)
 
     if (filteredData.length == 0) {
-      console.log("Changed")
       setSearchError("No cases found with these search filters")
     } else {
       setSearchError("")
