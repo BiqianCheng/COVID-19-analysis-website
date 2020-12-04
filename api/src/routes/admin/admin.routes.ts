@@ -160,5 +160,23 @@ router.get('/import/options', async (req: any, res) => {
   });
 })
 
+router.post('/saveDataset', async (req: any, res) => {
+  let {columns, csvArray, data} = parseCSV()
+
+  const dataset = req.body.dataset //get passed in dataset
+
+  const parser = new Parser({
+    fields: columns,
+    header: true, // put data passed in fields to top of csv (.aka the header)
+    quote: ''
+  })
+  // parse from array of json data to csv + newline
+  const updatedDataCsv = parser.parse(dataset) + "\r\n"
+
+  fs.writeFile(activeDataset, updatedDataCsv, (err) => { 
+    if(err) { return console.log(err); }
+  }); 
+})
+
 
 export default router

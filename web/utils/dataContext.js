@@ -4,9 +4,19 @@ import axios from "axios";
 export const Context = React.createContext();
 
 export default function dataContext(props) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(null)
+  const [modified, setModified] = useState(false) // if the dataset has been modified/changed
   const [analytics, setAnalytics] = useState(null)
   const [columns, setColumns] = useState([])
+
+
+  if (process.browser) {
+    window.onbeforeunload = () => {
+      if (modified) {
+        axios.post(`/admin/saveDataset/`, { dataset: data })
+      }
+    }
+  }
 
   useEffect(() => {
     axios.get(`/analytics/allData/`)
@@ -20,11 +30,12 @@ export default function dataContext(props) {
       .catch((error) => {
         console.log(error);
       })
+
   }, []);
 
   const insertData = (jsonData) => {
     console.log("Inserting Data: ", jsonData)
-
+    setModified(true)
     let newData = {}
     columns.map((column) => {
       if (jsonData[column]) {
@@ -44,7 +55,7 @@ export default function dataContext(props) {
 
   const updateData = (index, jsonData) => {
     const found = data[index]
-
+    setModified(true)
     if (!found) {
       console.log(`Data not found in the dataset for: ${index}`)
     }
@@ -54,7 +65,7 @@ export default function dataContext(props) {
 
   const deleteData = (index) => {
     const found = data[index]
-
+    setModified(true)
     if (!found) {
       console.log(`Data not found in the dataset for: ${index}`)
     }
@@ -62,23 +73,30 @@ export default function dataContext(props) {
   }
 
   const searchData = (queryInputs, startDate, endDate) => {
-
-    console.log("Query Inputs: ", queryInputs)
+    console.log("Current Data: ", data)
 
     // turn dates into same format as reporting date column
     if (startDate) {
       startDate = new Date(startDate)
     } else {
-      startDate = new Date("1900-01-01") // from the beginning
+      // if no start date specified then start from the beginning
+      startDate = new Date("1900-01-01")
     }
     if (endDate) {
       endDate = new Date(endDate)
     } else {
-      endDate = new Date("2100-12-31") // to the end
+      // if no end date specified then end at the absolute end
+      endDate = new Date("2100-12-31")
     }
 
+    let filteredData
 
-    let filteredData = data.filter(entry => {
+    // filter by stateDate & endDate
+    filteredData = data.filter(entry => {
+      // keep immediately if no reporting date for entry
+      if (!entry["reporting date"]) {
+        return true
+      }
       let reportingDate = new Date(entry["reporting date"]).getTime()
       if (startDate.getTime() <= reportingDate && reportingDate <= endDate.getTime()) {
         return true
@@ -86,6 +104,7 @@ export default function dataContext(props) {
     })
 
 
+    console.log("Filtered Data1: ", filteredData)
     for (let key in queryInputs) {
       // delete empty fields from the query
       if (queryInputs[key] == null || queryInputs[key] == '') {
@@ -98,7 +117,7 @@ export default function dataContext(props) {
         queryInputs[key] = 0
       }
     }
-
+    console.log("Filtered Data2: ", filteredData)
     // If the data is not equal to any of the filters then discard.
     // Else if it passes each filter then keep
     filteredData = filteredData.filter(entry => {
@@ -115,7 +134,7 @@ export default function dataContext(props) {
       }
       return true;
     })
-
+    console.log("Filtered Data3: ", filteredData)
     return filteredData
 
   }

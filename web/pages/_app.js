@@ -5,6 +5,7 @@ import DataContext from "../utils/dataContext";
 
 axios.defaults.baseURL = "http://localhost:3001";
 function MyApp({ Component, pageProps }) {
+
   const RenderHead = () => {
     return (
       <Head>
