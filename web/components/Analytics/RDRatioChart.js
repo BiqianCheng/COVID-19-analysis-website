@@ -14,10 +14,14 @@ const RDRatioChart = ({ data }) => {
     let RDRatioData = { recovered: 0, death: 0, confirmed: 0 };
 
     data.map((d) => {
-
-      if (d.recovered == true) RDRatioData["recovered"]++;
-      if (d.death == true) RDRatioData["death"]++;
-      RDRatioData["confirmed"]++;
+      if (d.recovered == true) {
+        RDRatioData["recovered"]++
+        return
+      } else if (d.death == true) {
+        RDRatioData["death"]++
+        return
+      }
+      RDRatioData["confirmed"]++
     });
 
     let chartData = {
