@@ -80,8 +80,8 @@ export default function dataContext(props) {
 
     /*Insert incremental analytics strategy*/
     analytics.cases--
-    newData.death == true ? analytics.deaths-- : null
-    newData.recovered == true ? analytics.recoveries-- : null
+    found.death == true ? analytics.deaths-- : null
+    found.recovered == true ? analytics.recoveries-- : null
 
     data.splice(index, 1)
   }
