@@ -57,7 +57,7 @@ const useStyles = makeStyles({
 
 const columns = [
   { id: "index", label: "Index", minWidth: 170 },
-  { id: "reporting_date", label: "Reporting Date", minWidth: 100 },
+  { id: "reporting date", label: "Reporting Date", minWidth: 100 },
   {
     id: "country",
     label: "Country",
@@ -111,7 +111,7 @@ function createData(
   return {
     id,
     index,
-    reporting_date,
+    "reporting date": reporting_date,
     country,
     location,
     age,

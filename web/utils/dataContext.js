@@ -68,6 +68,13 @@ export default function dataContext(props) {
       ? analytics.recoveries++ : jsonData.recovered == false && found.recovered == true
         ? analytics.recoveries-- : null
 
+    // convert date to dd/mm/yyyy format
+    // first check if a date object exists 
+    if (typeof jsonData["reporting date"].getMonth === "function") {
+      let reportingDate = jsonData["reporting date"]
+      jsonData["reporting date"] = (reportingDate.getMonth() + 1) + '/' + reportingDate.getDate() + '/' + reportingDate.getFullYear()
+    }
+
     data[index] = jsonData
   }
 

@@ -18,6 +18,7 @@ router.post('/insert', async (req: any, res) => {
   jsonData[lastIdKey] = Number(lastIdValue)+1
   
   // populate reporting date with date of insert
+  // only if the user doesn't manually enter a reporting date
   if (!jsonData["reporting date"]) {
     var today = new Date();
     jsonData["reporting date"] = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear()
