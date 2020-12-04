@@ -87,7 +87,7 @@ export default function dataContext(props) {
   }
 
   const searchData = (queryInputs, startDate, endDate) => {
-    console.log("Current Data: ", data)
+    console.log("queryInputs: ", queryInputs)
 
     // turn dates into same format as reporting date column
     if (startDate) {
@@ -121,12 +121,17 @@ export default function dataContext(props) {
       // delete empty fields from the query
       if (queryInputs[key] == null || queryInputs[key] == '') {
         delete queryInputs[key]
-      }
-      // Convert 1/0 into boolean values
-      if (queryInputs[key] == "1") {
-        queryInputs[key] = 1
-      } else if (queryInputs[key] == "0") {
-        queryInputs[key] = 0
+      } else {
+        // Convert death/recovered into boolean values
+        // special case: queryInputs[key].includes('/')
+        // some entries in the dataset returns the date of recovery/death (ex. "2/04/2020")
+        if (key == "death" || key == "recovered") {
+          if (queryInputs[key] == "1" || queryInputs[key].includes('/')) {
+            queryInputs[key] = 1
+          } else if (queryInputs[key] == "0") {
+            queryInputs[key] = 0
+          }
+        }
       }
     }
 
@@ -137,6 +142,14 @@ export default function dataContext(props) {
         if (entry[key] === undefined) {
           return false
         } else if (typeof queryInputs[key] != "string") {
+          // special case for when a date is returned from the dataset from death/recovered column instead of a boolean stating whether death/recovered happened
+          // if a date is returned than it's equal to being true
+          if (key == "death" || key == "recovered") {
+            if (entry[key].includes('/') && queryInputs[key]) {
+              return true
+            }
+          }
+
           if (entry[key] != queryInputs[key]) {
             return false
           }

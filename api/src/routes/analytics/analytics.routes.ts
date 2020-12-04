@@ -30,8 +30,13 @@ router.get('/allData', async (req: any, res) => {
   }
 
   data.map((entry) => {
-    entry.death == true ? analytics.deaths++ : null
-    entry.recovered == true ? analytics.recoveries++ : null
+
+    if (entry.death == true || entry.death.includes('/')) {
+      analytics.deaths++
+    }
+    if (entry.recovered == true || entry.recovered.includes('/')) {
+      analytics.recoveries++
+    }
 
     let country = entry.country.toLowerCase()
     if (countries[country] && country.length > 0) {
